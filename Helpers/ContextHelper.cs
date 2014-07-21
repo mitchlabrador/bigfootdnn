@@ -7,18 +7,31 @@ namespace BigfootDNN.Helpers
     public class ContextHelper
     {
 
+        /// <summary>
+        /// This is a quick reference to the current HttpContext.Curren
+        /// </summary>
         public static HttpContext Context { get { return HttpContext.Current; } }
 
+        /// <summary>
+        /// Determines whether the key is in the cache
+        /// </summary>
         public static bool HasData(string key)
         {
             return Context.Items.Contains(key);
         }
-
+        
+        /// <summary>
+        /// Gets a value from the context... returns null if empty
+        /// </summary>
+        /// <returns>Object in the cache or null if nothing found</returns>
         public static object GetData(string key)
         {
             return Context.Items.Contains(key) ? Context.Items[key] : null;
         }
 
+        /// <summary>
+        /// Sets a value. If found it overrides the current value, otherwise it adds it
+        /// </summary>
         public static void SetData(string key, object value)
         {
             if (Context.Items.Contains(key))
