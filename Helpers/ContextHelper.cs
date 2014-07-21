@@ -75,7 +75,7 @@ namespace BigfootDNN.Helpers
         internal static T GetData<T>(string key)
         {
             var data = GetData(key);
-            if (data == null)
+            if (data != null)
             {
                 return (T)data;
             }

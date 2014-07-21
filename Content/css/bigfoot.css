@@ -1,0 +1,436 @@
+/*****************************************************
+** FIX FOR IE BOX MODEL
+******************************************************/
+/*.clear { clear: both; height: 1px !important; line-height: 0px; margin: 0; padding: 0; }
+.clearfix:after { content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0; }
+.clearfix { display: inline-block; width:100%;}
+html[xmlns] .clearfix { display: block;}
+* html .clearfix { height: 1%; }*/
+
+/*****************************************************
+** Grid + Floats + With + Height classes
+******************************************************/
+#bfbox .fl, #bfbox .fr { display: inline } 
+#bfbox .fl { float:left } 
+#bfbox .fr { float:right }
+
+.wp1 { width: 1%; *width:0.9%; } .wp2 { width: 2%; *width:1.9%; } .wp3 { width: 3%; *width:2.9%; } .wp4 { width: 4%; *width:3.9%; }
+.wp5 { width: 5%; *width:4.9%; } .wp6 { width: 6%; *width:5.9%; } .wp7 { width: 7%; *width:6.9%; } .wp8 { width: 8%; *width:7.9%; }
+.wp9 { width: 9%; *width:8.9%; } .wp10 { width: 10%; *width:9.9%; } .wp15 { width: 15%; *width:10.9%; } .wp20 { width: 20%; *width:19.9%; }
+.wp24 { width: 24%; *width:23.9%; } .wp25 { width: 25%; *width:24.9%; } .wp30 { width: 30%; *width:29.9%; } .wp33 { width: 33.3%; *width:33.2%; }
+.wp35 { width: 35%; *width:34.9%; } .wp40 { width: 40%; *width:39.9%; } .wp45 { width: 45%; *width:44.9%; } .wp49 { width: 49%; *width:48.9%; }
+.wp50 { width: 50%; *width:49.9%; } .wp55 { width: 55%; *width:54.9%; } .wp60 { width: 60%; *width:59.9%; } .wp65 { width: 65%; *width:64.9%; }
+.wp66 { width: 66.6%; *width:66.5%; } .wp70 { width: 70%; *width:69.9%; } .wp75 { width: 75%; *width:74.9%; } .wp80 { width: 80%; *width:79.9%; }
+.wp85 { width: 85%; *width:84.9%; } .wp90 { width: 90%; *width:89.9%; } .wp95 { width: 95%; *width:94.9%; } .wp96 { width: 96%; *width:95.9%; }
+.wp97 { width: 97%; *width:96.9%; } .wp98 { width: 98%; *width:97.9%; } .wp99 { width: 99%; *width:98.9%; } .wp100 { width: 100%; *width:99.9%; }
+
+.w1 { width: 1px } .w2 { width: 2px } .w3 { width: 3px } .w4 { width: 4px } .w5 { width: 5px } .w6 { width: 6px } .w7 { width: 7px } .w8 { width: 8px } 
+.w9 { width: 9px } .w10 { width: 10px } .w11 { width: 11px } .w12 { width: 12px } .w13 { width: 13px } .w14 { width: 14px } .w15 { width: 15px } 
+.w16 { width: 16px } .w17 { width: 17px } .w18 { width: 18px } .w19 { width: 19px } .w20 { width: 20px } .w21 { width: 21px } .w22 { width: 22px } 
+.w23 { width: 23px } .w24 { width: 24px } .w25 { width: 25px } .w26 { width: 26px } .w27 { width: 27px } .w28 { width: 28px } .w29 { width: 29px } 
+.w30 { width: 30px } .w35 { width: 35px } .w40 { width: 40px } .w45 { width: 45px } .w50 { width: 50px } .w55 { width: 55px } .w60 { width: 60px } 
+.w65 { width: 65px } .w70 { width: 70px } .w75 { width: 75px } .w80 { width: 80px } .w85 { width: 85px }  .w90 { width: 90px } .w95 { width: 95px } 
+.w100 { width: 100px } .w105 { width: 105px } .w110 { width: 110px } .w115 { width: 115px } .w120 { width: 120px } .w125 { width: 125px } .w130 { width: 130px } 
+.w135 { width: 135px } .w140 { width: 140px } .w145 { width: 145px } .w150 { width: 150px } .w155 { width: 155px } .w160 { width: 160px } .w165 { width: 165px } 
+.w170 { width: 170px } .w175 { width: 175px } .w180 { width: 180px } .w185 { width: 185px } .w190 { width: 190px } .w195 { width: 195px } .w200 { width: 200px } 
+.w205 { width: 205px } .w210 { width: 210px } .w215 { width: 215px } .w220 { width: 220px } .w225 { width: 225px } .w230 { width: 230px } .w235 { width: 235px } 
+.w240 { width: 240px } .w245 { width: 245px } .w250 { width: 250px } .w255 { width: 255px } .w260 { width: 260px } .w265 { width: 265px } .w270 { width: 270px } 
+.w275 { width: 275px } .w280 { width: 280px } .w285 { width: 285px } .w290 { width: 290px } .w295 { width: 295px } .w300 { width: 300px } .w305 { width: 305px } 
+.w310 { width: 310px } .w315 { width: 315px } .w320 { width: 320px } .w325 { width: 325px } .w330 { width: 330px } .w335 { width: 335px } .w340 { width: 340px } 
+.w345 { width: 345px } .w350 { width: 350px } .w355 { width: 355px } .w360 { width: 360px } .w365 { width: 365px } .w370 { width: 370px } .w375 { width: 375px } 
+.w380 { width: 380px } .w385 { width: 385px } .w390 { width: 390px } .w395 { width: 395px } .w400 { width: 400px } .w405 { width: 405px } .w410 { width: 410px } 
+.w415 { width: 415px } .w420 { width: 420px } .w425 { width: 425px } .w430 { width: 430px } .w435 { width: 435px } .w440 { width: 440px } .w445 { width: 445px } 
+.w450 { width: 450px } .w455 { width: 455px } .w460 { width: 460px } .w465 { width: 465px } .w470 { width: 470px } .w475 { width: 475px } .w480 { width: 480px } 
+.w485 { width: 485px } .w490 { width: 490px } .w495 { width: 495px } .w500 { width: 500px } .w505 { width: 505px } .w510 { width: 510px } .w515 { width: 515px } 
+.w520 { width: 520px } .w525 { width: 525px } .w530 { width: 530px } .w535 { width: 535px } .w540 { width: 540px } .w545 { width: 545px } .w550 { width: 550px } 
+.w555 { width: 555px } .w560 { width: 560px } .w565 { width: 565px } .w570 { width: 570px } .w575 { width: 575px } .w580 { width: 580px } .w585 { width: 585px } 
+.w590 { width: 590px } .w595 { width: 595px } .w600 { width: 600px } .w605 { width: 605px } .w610 { width: 610px } .w615 { width: 615px } .w620 { width: 620px } 
+.w625 { width: 625px } .w630 { width: 630px } .w635 { width: 635px } .w640 { width: 640px } .w645 { width: 645px } .w650 { width: 650px } .w655 { width: 655px } 
+.w660 { width: 660px } .w665 { width: 665px } .w670 { width: 670px } .w675 { width: 675px } .w680 { width: 680px } .w685 { width: 685px } .w690 { width: 690px } 
+.w695 { width: 695px } .w700 { width: 700px } .w705 { width: 705px } .w710 { width: 710px } .w715 { width: 715px } .w720 { width: 720px } .w725 { width: 725px } 
+.w730 { width: 730px } .w735 { width: 735px } .w740 { width: 740px } .w745 { width: 745px } .w750 { width: 750px } .w755 { width: 755px } .w760 { width: 760px } 
+.w765 { width: 765px } .w770 { width: 770px } .w775 { width: 775px } .w780 { width: 780px } .w785 { width: 785px } .w790 { width: 790px } .w795 { width: 795px } 
+.w800 { width: 800px } .w805 { width: 805px } .w810 { width: 810px } .w815 { width: 815px } .w820 { width: 820px } .w825 { width: 825px } .w830 { width: 830px } 
+.w835 { width: 835px } .w840 { width: 840px } .w845 { width: 845px } .w850 { width: 850px } .w855 { width: 855px } .w860 { width: 860px } .w865 { width: 865px } 
+.w870 { width: 870px } .w875 { width: 875px } .w880 { width: 880px } .w885 { width: 885px } .w890 { width: 890px } .w895 { width: 895px } .w900 { width: 900px } 
+.w905 { width: 905px } .w910 { width: 910px } .w915 { width: 915px } .w920 { width: 920px } .w925 { width: 925px } .w930 { width: 930px } .w935 { width: 935px } 
+.w940 { width: 940px } .w945 { width: 945px } .w950 { width: 950px } .w955 { width: 955px } .w960 { width: 960px } .w965 { width: 965px } .w970 { width: 970px } 
+.w975 { width: 975px } .w980 { width: 980px } .w985 { width: 985px } .w990 { width: 990px } .w995 { width: 995px }
+.w1000 { width: 1000px } .w1005 { width: 1005px } .w1010 { width: 1010px } .w1015 { width: 1015px } .w1020 { width: 1020px } .w1025 { width: 1025px } 
+.w1030 { width: 1030px } .w1035 { width: 1035px } .w1040 { width: 1040px } .w1045 { width: 1045px } .w1050 { width: 1050px } .w1055 { width: 1055px } 
+.w1060 { width: 1060px } .w1065 { width: 1065px } .w1070 { width: 1070px } .w1075 { width: 1075px } .w1080 { width: 1080px } .w1085 { width: 1085px } 
+.w1090 { width: 1090px } .w1095 { width: 1095px } .w1100 { width: 1100px } .w1105 { width: 1105px } .w1110 { width: 1110px } .w1115 { width: 1115px } 
+.w1120 { width: 1120px } .w1125 { width: 1125px } .w1130 { width: 1130px } .w1135 { width: 1135px } .w1140 { width: 1140px } .w1145 { width: 1145px } 
+.w1150 { width: 1150px } .w1155 { width: 1155px } .w1160 { width: 1160px } .w1165 { width: 1165px } .w1170 { width: 1170px } .w1175 { width: 1175px } 
+.w1180 { width: 1180px } .w1185 { width: 1185px } .w1190 { width: 1190px } .w1195 { width: 1195px } .w1200 { width: 1200px } .w1205 { width: 1205px } 
+.w1210 { width: 1210px } .w1215 { width: 1215px } /* 1215 Covers 76% of all displays outthere which are >= 1280 */
+/* Non-standard Add Sizes*/
+.w88 { width: 88px } .w234 { width: 234px } .w336 { width: 336px } .w392 { width: 392px } .w468 { width: 468px } .w728 { width: 728px }
+
+
+.hp1 { height: 1%; *height:0.9%; } .hp2 { height: 2%; *height:1.9%; } .hp3 { height: 3%; *height:2.9%; } .hp4 { height: 4%; *height:3.9%; }
+.hp5 { height: 5%; *height:4.9%; } .hp6 { height: 6%; *height:5.9%; } .hp7 { height: 7%; *height:6.9%; } .hp8 { height: 8%; *height:7.9%; }
+.hp9 { height: 9%; *height:8.9%; } .hp10 { height: 10%; *height:9.9%; } .hp15 { height: 15%; *height:10.9%; } .hp20 { height: 20%; *height:19.9%; }
+.hp24 { height: 24%; *height:23.9%; } .hp25 { height: 25%; *height:24.9%; } .hp30 { height: 30%; *height:29.9%; } .hp33 { height: 33.3%; *height:33.2%; }
+.hp35 { height: 35%; *height:34.9%; } .hp40 { height: 40%; *height:39.9%; } .hp45 { height: 45%; *height:44.9%; } .hp49 { height: 49%; *height:48.9%; }
+.hp50 { height: 50%; *height:49.9%; } .hp55 { height: 55%; *height:54.9%; } .hp60 { height: 60%; *height:59.9%; } .hp65 { height: 65%; *height:64.9%; }
+.hp66 { height: 66.6%; *height:66.5%; } .hp70 { height: 70%; *height:69.9%; } .hp75 { height: 75%; *height:74.9%; } .hp80 { height: 80%; *height:79.9%; }
+.hp85 { height: 85%; *height:84.9%; } .hp90 { height: 90%; *height:89.9%; } .hp95 { height: 95%; *height:94.9%; } .hp96 { height: 96%; *height:95.9%; }
+.hp97 { height: 97%; *height:96.9%; } .hp98 { height: 98%; *height:97.9%; } .hp99 { height: 99%; *height:98.9%; } .hp100 { height: 100%; *width:99.9%; }
+
+
+.h1 { height: 1px } .h2 { height: 2px } .h3 { height: 3px } .h4 { height: 4px } .h5 { height: 5px } .h6 { height: 6px } .h7 { height: 7px } .h8 { height: 8px } 
+.h9 { height: 9px } .h10 { height: 10px } .h11 { height: 11px } .h12 { height: 12px } .h13 { height: 13px } .h14 { height: 14px } .h15 { height: 15px } 
+.h16 { height: 16px } .h17 { height: 17px } .h18 { height: 18px } .h19 { height: 19px } .h20 { height: 20px } .h21 { height: 21px } .h22 { height: 22px } 
+.h23 { height: 23px } .h24 { height: 24px } .h25 { height: 25px } .h26 { height: 26px } .h27 { height: 27px } .h28 { height: 28px } .h29 { height: 29px } 
+.h30 { height: 30px } .h35 { height: 35px } .h40 { height: 40px } .h45 { height: 45px } .h50 { height: 50px } .h55 { height: 55px } .h60 { height: 60px } 
+.h65 { height: 65px } .h70 { height: 70px } .h75 { height: 75px } .h80 { height: 80px } .h85 { height: 85px } .h90 { height: 90px } .h95 { height: 95px } 
+.h100 { height: 100px } .h105 { height: 105px } .h110 { height: 110px } .h115 { height: 115px } .h120 { height: 120px } .h125 { height: 125px } .h130 { height: 130px } 
+.h135 { height: 135px } .h140 { height: 140px } .h145 { height: 145px } .h150 { height: 150px } .h155 { height: 155px } .h160 { height: 160px } .h165 { height: 165px }
+.h170 { height: 170px } .h175 { height: 175px } .h180 { height: 180px } .h185 { height: 185px } .h190 { height: 190px } .h195 { height: 195px } .h200 { height: 200px } 
+.h205 { height: 205px } .h210 { height: 210px } .h215 { height: 215px } .h220 { height: 220px } .h225 { height: 225px } .h230 { height: 230px } .h235 { height: 235px } 
+.h240 { height: 240px } .h245 { height: 245px } .h250 { height: 250px } .h255 { height: 255px } .h260 { height: 260px } .h265 { height: 265px } .h270 { height: 270px } 
+.h275 { height: 275px } .h280 { height: 280px } .h285 { height: 285px } .h290 { height: 290px } .h295 { height: 295px } .h300 { height: 300px } .h305 { height: 305px } 
+.h310 { height: 310px } .h315 { height: 315px } .h320 { height: 320px } .h325 { height: 325px } .h330 { height: 330px } .h335 { height: 335px } .h340 { height: 340px } 
+.h345 { height: 345px } .h350 { height: 350px } .h355 { height: 355px } .h360 { height: 360px } .h365 { height: 365px } .h370 { height: 370px } .h375 { height: 375px } 
+.h380 { height: 380px } .h385 { height: 385px } .h390 { height: 390px } .h395 { height: 395px } .h400 { height: 400px } .h405 { height: 405px } .h410 { height: 410px } 
+.h415 { height: 415px } .h420 { height: 420px } .h425 { height: 425px } .h430 { height: 430px } .h435 { height: 435px } .h440 { height: 440px } .h445 { height: 445px } 
+.h450 { height: 450px } .h455 { height: 455px } .h460 { height: 460px } .h465 { height: 465px } .h470 { height: 470px } .h475 { height: 475px } .h480 { height: 480px } 
+.h485 { height: 485px } .h490 { height: 490px } .h495 { height: 495px } .h500 { height: 500px } .h505 { height: 505px } .h510 { height: 510px } .h515 { height: 515px } 
+.h520 { height: 520px } .h525 { height: 525px } .h530 { height: 530px } .h535 { height: 535px } .h540 { height: 540px } .h545 { height: 545px } .h550 { height: 550px } 
+.h555 { height: 555px } .h560 { height: 560px } .h565 { height: 565px } .h570 { height: 570px } .h575 { height: 575px } .h580 { height: 580px } .h585 { height: 585px } 
+.h590 { height: 590px } .h595 { height: 595px } .h600 { height: 600px } .h605 { height: 605px } .h610 { height: 610px } .h615 { height: 615px } .h620 { height: 620px } 
+.h625 { height: 625px } .h630 { height: 630px } .h635 { height: 635px } .h640 { height: 640px } .h645 { height: 645px } .h650 { height: 650px } .h655 { height: 655px } 
+.h660 { height: 660px } .h665 { height: 665px } .h670 { height: 670px } .h675 { height: 675px } .h680 { height: 680px } .h685 { height: 685px } .h690 { height: 690px } 
+.h695 { height: 695px } .h700 { height: 700px } .h705 { height: 705px } .h710 { height: 710px } .h715 { height: 715px } .h720 { height: 720px } .h725 { height: 725px } 
+.h730 { height: 730px } .h735 { height: 735px } .h740 { height: 740px } .h745 { height: 745px } .h750 { height: 750px } .h755 { height: 755px } .h760 { height: 760px } 
+.h765 { height: 765px } .h770 { height: 770px } .h775 { height: 775px } .h780 { height: 780px } .h785 { height: 785px } .h790 { height: 790px } .h795 { height: 795px }
+.h800 { height: 800px } .h825 { height: 825px } .h850 { height: 850px } .h875 { height: 875px } .h900 { height: 900px } .h925 { height: 925px } .h950 { height: 950px }
+.h975 { height: 975px } .h1000 { height: 1000px }
+/* Non-standard Add Sizes */
+.h31 { height: 31px } .h72 { height: 72px } 
+
+/*MARGINS AND PADDING*/
+/*margin*/
+#bfbox .mauto { margin: auto; }
+#bfbox .m0 { margin: 0px } #bfbox .m1 { margin: 1px } #bfbox .m2 { margin: 2px } #bfbox .m3 { margin: 3px } 
+#bfbox .m4 { margin: 4px } #bfbox .m5 { margin: 5px } #bfbox .m6 { margin: 6px } #bfbox .m7 { margin: 7px } 
+#bfbox .m8 { margin: 8px } #bfbox .m9 { margin: 9px } #bfbox .m10 { margin: 10px }  #bfbox .m15 { margin: 15px }   
+#bfbox .m20 { margin: 20px } #bfbox .m25 { margin: 25px } #bfbox .m30 { margin: 30px } #bfbox .m35 { margin: 35px } 
+#bfbox .m40 { margin: 40px } #bfbox .m45 { margin: 45px } #bfbox .m50 { margin: 50px } 
+#bfbox .m55 { margin: 55px } #bfbox .m60 { margin: 60px } #bfbox .m65 { margin: 65px } #bfbox .m70 { margin: 70px }
+#bfbox .m75 { margin: 75px } #bfbox .m80 { margin: 80px } #bfbox .m85 { margin: 85px } #bfbox .m90 { margin: 90px }
+#bfbox .m95 { margin: 95px } #bfbox .m100 { margin: 100px } 
+/*margin-top*/
+#bfbox .mt0 { margin-top: 0px } #bfbox .mt1 { margin-top: 1px }   #bfbox .mt2 { margin-top: 2px } #bfbox .mt3 { margin-top: 3px } 
+#bfbox .mt4 { margin-top: 4px } #bfbox .mt5 { margin-top: 5px } #bfbox .mt6 { margin-top: 6px } #bfbox .mt7 { margin-top: 7px } 
+#bfbox .mt8 { margin-top: 8px } #bfbox .mt9 { margin-top: 9px } #bfbox .mt10 { margin-top: 10px }  #bfbox .mt15 { margin-top: 15px }  
+#bfbox .mt20 { margin-top: 20px } #bfbox .mt25 { margin-top: 25px }  #bfbox .mt30 { margin-top: 30px } #bfbox .mt35 { margin-top: 35px }  
+#bfbox .mt40 { margin-top: 40px } #bfbox .mt45 { margin-top: 45px } #bfbox .mt50 { margin-top: 50px } 
+#bfbox .mt55 { margin-top: 55px } #bfbox .mt60 { margin-top: 60px }  #bfbox .mt65 { margin-top: 65px } #bfbox .mt70 { margin-top: 70px }  
+#bfbox .mt75 { margin-top: 75px } #bfbox .mt80 { margin-top: 80px }  #bfbox .mt85 { margin-top: 85px } #bfbox .mt90 { margin-top: 90px }  
+#bfbox .mt95 { margin-top: 95px } #bfbox .mt100 { margin-top: 100px }  
+/*margin-right*/
+#bfbox .mr0 { margin-right: 0px } #bfbox .mr1 { margin-right: 1px } #bfbox .mr1 { margin-right: 1px } #bfbox .mr2 { margin-right: 2px } 
+#bfbox .mr3 { margin-right: 3px } #bfbox .mr4 { margin-right: 4px } #bfbox .mr5 { margin-right: 5px } #bfbox .mr6 { margin-right: 6px } 
+#bfbox .mr7 { margin-right: 7px } #bfbox .mr8 { margin-right: 8px } #bfbox .mr9 { margin-right: 9px } #bfbox .mr10 { margin-right: 10px } 
+#bfbox .mr15 { margin-right: 15px } #bfbox .mr20 { margin-right: 20px } #bfbox .mr25 { margin-right: 25px } #bfbox .mr30 { margin-right: 30px } 
+#bfbox .mr35 { margin-right: 35px } #bfbox .mr40 { margin-right: 40px } #bfbox .mr45 { margin-right: 45px } #bfbox .mr50 { margin-right: 50px } 
+#bfbox .mr55 { margin-right: 55px } #bfbox .mr60 { margin-right: 60px } #bfbox .mr65 { margin-right: 65px } #bfbox .mr70 { margin-right: 70px } 
+#bfbox .mr75 { margin-right: 75px } #bfbox .mr80 { margin-right: 80px } #bfbox .mr85 { margin-right: 85px } #bfbox .mr90 { margin-right: 90px } 
+#bfbox .mr95 { margin-right: 95px } #bfbox .mr100 { margin-right: 100px } 
+/*margin-left*/
+#bfbox .ml0 { margin-left: 0px } #bfbox .ml1 { margin-left: 1px } #bfbox .ml2 { margin-left: 2px } #bfbox .ml3 { margin-left: 3px } 
+#bfbox .ml4 { margin-left: 4px } #bfbox .ml5 { margin-left: 5px } #bfbox .ml6 { margin-left: 6px } #bfbox .ml7 { margin-left: 7px } 
+#bfbox .ml8 { margin-left: 8px } #bfbox .ml9 { margin-left: 9px } #bfbox .ml10 { margin-left: 10px } #bfbox .ml15 { margin-left: 15px } 
+#bfbox .ml20 { margin-left: 20px } #bfbox .ml25 { margin-left: 25px } #bfbox .ml30 { margin-left: 30px } #bfbox .ml35 { margin-left: 35px }
+#bfbox .ml40 { margin-left: 40px } #bfbox .ml45 { margin-left: 45px } #bfbox .ml50 { margin-left: 50px }  
+#bfbox .ml55 { margin-left: 55px } #bfbox .ml60 { margin-left: 60px } #bfbox .ml65 { margin-left: 65px } #bfbox .ml70 { margin-left: 70px } 
+#bfbox .ml75 { margin-left: 75px } #bfbox .ml80 { margin-left: 80px } #bfbox .ml85 { margin-left: 85px } #bfbox .ml90 { margin-left: 90px } 
+#bfbox .ml95 { margin-left: 95px } #bfbox .ml100 { margin-left: 100px } 
+/*margin-bottom*/
+#bfbox .mb0 { margin-bottom: 0px } #bfbox .mb1 { margin-bottom: 1px }  #bfbox .mb2 { margin-bottom: 2px } #bfbox .mb3 { margin-bottom: 3px } 
+#bfbox .mb4 { margin-bottom: 4px } #bfbox .mb5 { margin-bottom: 5px } #bfbox .mb6 { margin-bottom: 6px } #bfbox .mb7 { margin-bottom: 7px } 
+#bfbox .mb8 { margin-bottom: 8px } #bfbox .mb9 { margin-bottom: 9px } #bfbox .mb10 { margin-bottom: 10px } #bfbox .mb15 { margin-bottom: 15px } 
+#bfbox .mb20 { margin-bottom: 20px } #bfbox .mb25 { margin-bottom: 25px } #bfbox .mb30 { margin-bottom: 30px } #bfbox .mb35 { margin-bottom: 35px }
+#bfbox .mb40 { margin-bottom: 40px } #bfbox .mb45 { margin-bottom: 45px } #bfbox .mb50 { margin-bottom: 50px } 
+#bfbox .mb55 { margin-bottom: 55px } #bfbox .mb60 { margin-bottom: 60px } #bfbox .mb65 { margin-bottom: 65px } #bfbox .mb70 { margin-bottom: 70px } 
+#bfbox .mb75 { margin-bottom: 75px } #bfbox .mb80 { margin-bottom: 80px } #bfbox .mb85 { margin-bottom: 85px } #bfbox .mb90 { margin-bottom: 90px } 
+#bfbox .mb95 { margin-bottom: 95px } #bfbox .mb100 { margin-bottom: 100px } 
+/*padding*/
+#bfbox .p0 { padding: 0px } #bfbox .p1 { padding: 1px } #bfbox .p2 { padding: 2px } #bfbox .p3 { padding: 3px } #bfbox .p4 { padding: 4px } 
+#bfbox .p5 { padding: 5px } #bfbox .p6 { padding: 6px } #bfbox .p7 { padding: 7px } #bfbox .p8 { padding: 8px } #bfbox .p9 { padding: 9px } 
+#bfbox .p10 { padding: 10px } #bfbox .p15 { padding: 15px }  #bfbox .p20 { padding: 20px } #bfbox .p25 { padding: 25px } #bfbox .p30 { padding: 30px }
+#bfbox .p35 { padding: 35px } #bfbox .p40 { padding: 40px } #bfbox .p45 { padding: 45px } #bfbox .p50 { padding: 50px }
+#bfbox .p55 { padding: 55px }  #bfbox .p60 { padding: 60px } #bfbox .p65 { padding: 65px } #bfbox .p70 { padding: 70px }
+#bfbox .p75 { padding: 75px }  #bfbox .p80 { padding: 80px } #bfbox .p85 { padding: 85px } #bfbox .p90 { padding: 90px }
+#bfbox .p95 { padding: 95px }  #bfbox .p100 { padding: 100px } 
+/*padding-top*/
+#bfbox .pt0 { padding-top: 0px } #bfbox .pt1 { padding-top: 1px } #bfbox .pt2 { padding-top: 2px } #bfbox .pt3 { padding-top: 3px } 
+#bfbox .pt4 { padding-top: 4px } #bfbox .pt5 { padding-top: 5px } #bfbox .pt6 { padding-top: 6px } #bfbox .pt7 { padding-top: 7px } 
+#bfbox .pt8 { padding-top: 8px } #bfbox .pt9 { padding-top: 9px } #bfbox .pt10 { padding-top: 10px } #bfbox .pt15 { padding-top: 15px }  
+#bfbox .pt20 { padding-top: 20px } #bfbox .pt25 { padding-top: 25px } #bfbox .pt30 { padding-top: 30px } #bfbox .pt35 { padding-top: 35px } 
+#bfbox .pt40 { padding-top: 40px } #bfbox .pt45 { padding-top: 45px } #bfbox .pt50 { padding-top: 50px }
+#bfbox .pt55 { padding-top: 55px } #bfbox .pt60 { padding-top: 60px } #bfbox .pt65 { padding-top: 65px } #bfbox .pt70 { padding-top: 70px }
+#bfbox .pt75 { padding-top: 75px } #bfbox .pt80 { padding-top: 80px } #bfbox .pt85 { padding-top: 85px } #bfbox .pt90 { padding-top: 90px }
+#bfbox .pt95 { padding-top: 95px } #bfbox .pt100 { padding-top: 100px } 
+/*padding-right*/
+#bfbox .pr0 { padding-right: 0px } #bfbox .pr1 { padding-right: 1px }  #bfbox .pr2 { padding-right: 2px } #bfbox .pr3 { padding-right: 3px } 
+#bfbox .pr4 { padding-right: 4px } #bfbox .pr5 { padding-right: 5px } #bfbox .pr6 { padding-right: 6px } #bfbox .pr7 { padding-right: 7px } 
+#bfbox .pr8 { padding-right: 8px } #bfbox .pr9 { padding-right: 9px } #bfbox .pr10 { padding-right: 10px }  #bfbox .pr15 { padding-right: 15px } 
+#bfbox .pr20 { padding-right: 20px } #bfbox .pr25 { padding-right: 25px } #bfbox .pr30 { padding-right: 30px } #bfbox .pr35 { padding-right: 35px }
+#bfbox .pr40 { padding-right: 40px } #bfbox .pr45 { padding-right: 45px } #bfbox .pr50 { padding-right: 50px }
+#bfbox .pr55 { padding-right: 55px } #bfbox .pr60 { padding-right: 60px } #bfbox .pr65 { padding-right: 65px } #bfbox .pr70 { padding-right: 70px }
+#bfbox .pr75 { padding-right: 75px } #bfbox .pr80 { padding-right: 80px } #bfbox .pr85 { padding-right: 85px } #bfbox .pr90 { padding-right: 90px }
+#bfbox .pr95 { padding-right: 95px } #bfbox .pr100 { padding-right: 100px } 
+/*padding-bottom*/
+#bfbox .pb0 { padding-bottom: 0px } #bfbox .pb1 { padding-bottom: 1px }  #bfbox .pb2 { padding-bottom: 2px }  #bfbox .pb3 { padding-bottom: 3px } 
+#bfbox .pb4 { padding-bottom: 4px } #bfbox .pb5 { padding-bottom: 5px } #bfbox .pb6 { padding-bottom: 6px }  #bfbox .pb7 { padding-bottom: 7px }  
+#bfbox .pb8 { padding-bottom: 8px }  #bfbox .pb9 { padding-bottom: 9px } #bfbox .pb10 { padding-bottom: 10px }  #bfbox .pb15 { padding-bottom: 15px }  
+#bfbox .pb20 { padding-bottom: 20px }  #bfbox .pb25 { padding-bottom: 25px } #bfbox .pb30 { padding-bottom: 30px } #bfbox .pb35 { padding-bottom: 35px }
+#bfbox  .pb40 { padding-bottom: 40px } #bfbox .pb45 { padding-bottom: 45px } #bfbox .pb50 { padding-bottom: 50px }
+#bfbox .pb55 { padding-bottom: 55px }  #bfbox .pb60 { padding-bottom: 60px }  #bfbox .pb65 { padding-bottom: 65px } #bfbox .pb70 { padding-bottom: 70px }
+#bfbox .pb75 { padding-bottom: 75px }  #bfbox .pb80 { padding-bottom: 80px }  #bfbox .pb85 { padding-bottom: 85px } #bfbox .pb90 { padding-bottom: 90px }
+#bfbox .pb95 { padding-bottom: 95px }  #bfbox .pb100 { padding-bottom: 100px }  
+/*padding-left*/
+#bfbox .pl0 { padding-left: 0px } #bfbox .pl1 { padding-left: 1px }  #bfbox .pl2 { padding-left: 2px } #bfbox .pl3 { padding-left: 3px } 
+#bfbox .pl4 { padding-left: 4px } #bfbox .pl5 { padding-left: 5px } #bfbox .pl6 { padding-left: 6px } #bfbox .pl7 { padding-left: 7px } 
+#bfbox .pl8 { padding-left: 8px } #bfbox .pl9 { padding-left: 9px } #bfbox .pl10 { padding-left: 10px } #bfbox .pl15 { padding-left: 15px } 
+#bfbox .pl20 { padding-left: 20px } #bfbox .pl25 { padding-left: 25px } #bfbox .pl30 { padding-left: 30px } #bfbox .pl35 { padding-left: 35px }
+#bfbox .pl40 { padding-left: 40px } #bfbox .pl45 { padding-left: 45px } #bfbox .pl50 { padding-left: 50px }
+#bfbox .pl55 { padding-left: 55px } #bfbox .pl60 { padding-left: 60px } #bfbox .pl65 { padding-left: 65px } #bfbox .pl70 { padding-left: 70px }
+#bfbox .pl75 { padding-left: 75px } #bfbox .pl80 { padding-left: 80px } #bfbox .pl85 { padding-left: 85px } #bfbox .pl90 { padding-left: 90px }
+#bfbox .pl95 { padding-left: 95px } #bfbox .pl100 { padding-left: 100px } 
+
+/*COLORS AND BACKGROUNDS*/
+#bfbox .bginherit {background-color: inherit}
+#bfbox .bgwhite  {background-color: white} 
+#bfbox .bgblack  {background-color: black} 
+#bfbox .bgred  {background-color: red} 
+#bfbox .bggreen  {background-color: green} 
+#bfbox .bgyellow  {background-color: #D9D80E}
+#bfbox .bglight  {background-color: #f5f5f5}
+#bfbox .bglight1  {background-color: #DCDCDC}
+#bfbox .bglight2  {background-color: #C6C6C6}
+#bfbox .bglight3  {background-color: #B0B0B0}
+#bfbox .bgdark  {background-color: #666}
+#bfbox .bghl  {background-color: #edf3fe}
+#bfbox .black, #bfbox a.black, #bfbox a.black:hover, #bfbox a.black:active, #bfbox a.black:visited  {color:Black}
+#bfbox .white, #bfbox a.white, #bfbox a.white:hover, #bfbox a.white:active, #bfbox a.white:visited  {color:white}
+#bfbox .red, #bfbox a.red, #bfbox a.red:hover, #bfbox a.red:active, #bfbox a.red:visited  {color:Red}
+#bfbox .xdark, #bfbox a.xdark, #bfbox a.xdark:hover, #bfbox a.xdark:active, #bfbox a.xdark:visited  {color:#2B2B2B}
+#bfbox .dark, #bfbox a.dark, #bfbox a.dark:hover, #bfbox a.dark:active, #bfbox a.dark:visited  {color:#393939}
+#bfbox .light, #bfbox a.light, #bfbox a.light:hover, #bfbox a.light:active, #bfbox a.light:visited  {color:#666}
+#bfbox .xlight, #bfbox a.xlight, #bfbox a.xlight:hover, #bfbox a.xlight:active, #bfbox a.xlight:visited  {color:#999}
+
+/*BORDERS*/
+/*border-none*/
+#bfbox .bnone, #bfbox td.bnone { border: none !important; }
+#bfbox .blnone, #bfbox td.blnone { border-left: none !important; }
+#bfbox .brnone, #bfbox td.brnone { border-right: none !important; }
+#bfbox .btnone, #bfbox td.btnone { border-top: none !important; }
+#bfbox .bbnone, #bfbox td.bbnone { border-bottom: none !important; }
+/*border-dotted*/  
+#bfbox .bdotted, #bfbox td.bdotted { border: #ccc 1px dotted }
+#bfbox .btdotted, #bfbox td.btdotted { border-top: #ccc 1px dotted }
+#bfbox .brdotted, #bfbox td.brdotted { border-right: #ccc 1px dotted }
+#bfbox .bbdotted, #bfbox td.bbdotted { border-bottom: #ccc 1px dotted }
+#bfbox .bldotted, #bfbox td.bldotted { border-left: #ccc 1px dotted }
+/*border-solid */  
+#bfbox .bsolid, #bfbox td.bsolid { border: #ccc 1px solid }
+#bfbox .btsolid, #bfbox td.btsolid { border-top: #ccc 1px solid }
+#bfbox .brsolid, #bfbox td.brsolid { border-right: #ccc 1px solid }
+#bfbox .bbsolid, #bfbox td.bbsolid { border-bottom: #ccc 1px solid }
+#bfbox .blsolid, #bfbox td.blsolid { border-left: #ccc 1px solid }
+/*border-color*/
+#bfbox .bwhite {border-color: white} 
+#bfbox .bblack {border-color: black} 
+#bfbox .bred {border-color: red} 
+#bfbox .blight {border-color: #f5f5f5}
+#bfbox .blight1  {background-color: #DCDCDC}
+#bfbox .blight2  {background-color: #C6C6C6}
+#bfbox .blight3  {background-color: #B0B0B0}
+#bfbox .bdark {border-color: #666}
+#bfbox .bhl {border-color: #edf3fe}
+#bfbox .bw1 {border-width: 1px} #bfbox .bw2 {border-width: 2px} #bfbox .bw3 {border-width: 3px} #bfbox .bw4 {border-width: 4px} #bfbox .bw5 {border-width: 5px}
+
+/*BOX*/
+#bfbox .hide { display:none}
+#bfbox .hidden {display:none;}
+#bfbox .block { display:block}
+#bfbox .inline { display:inline }
+#bfbox .inlineb { display: inline-block }
+
+/*POSITION*/ 
+#bfbox .prel { position: relative; }
+#bfbox .pabs {	position:absolute; }
+#bfbox .pfixed { position:fixed; }
+#bfbox .pstatic { position:static; }
+
+/*MISCELLANEOUS*/
+#bfbox .pointer { cursor: pointer }
+#bfbox .cnormal, #bfbox a.cnormal, #bfbox a.cnormal:hover, #bfbox a.cnormal:active, #bfbox a.cnormal:visited { cursor:default }
+#bfbox .b, #bfbox a.b, #bfbox a.b:hover, #bfbox a.b:active, #bfbox a.b:visited, #bfbox strong { font-weight:bold }
+#bfbox .fieldlabel { display: block; padding-bottom:3px; }
+#bfbox .nowrap { white-space:nowrap }
+#bfbox .strike { text-decoration: line-through }
+#bfbox ul.hlist li { list-style:none; display:inline-block; float:left }
+#bfbox .vscroll { overflow-y: auto; }
+#bfbox .hscroll { overflow-x: auto; }
+#bfbox .scroll { overflow: auto; }
+
+/*LINKS*/
+#bfbox a.uline { text-decoration: underline }
+#bfbox a.nouline { text-decoration: none }
+#bfbox a.hoveruline:hover { text-decoration: underline } 
+
+/*ALIGNMENT*/
+#bfbox .tr { text-align:right } #bfbox .tl { text-align:left } #bfbox .tc { text-align:center } #bfbox .tj { text-align:justify }
+#bfbox .tvt { vertical-align:top } #bfbox .tvc, #bfbox .tvm { vertical-align:middle } #bfbox .tvb { vertical-align:bottom }
+
+/*TABLE DESIGN*/
+#bfbox table.tablemin { background: #fff; border-collapse: collapse; text-align: left; }
+#bfbox table.tablemin th { font-weight: bold; color: #292929; padding: 10px 8px 3px 8px; border-bottom: 2px solid #292929; }
+#bfbox table.tablemin td { border-bottom: 1px solid #ccc; color: #292929; padding: 7px 8px 7px 8px; }
+#bfbox table.tablemin tbody tr:hover td { background-color: #f5f5f5; }
+
+ /*************************************************************
+ ** 16 COLUMN FLUID GRID: Based on the 960 Grid and 960 Fluid  
+ **************************************************************/
+
+/* Container: 16 columns
+----------------------------------------------------------------------------------------------------*/
+#bfbox .g16 { width: 98%; margin-left: 2%; /*margin-right: 1%;*/ }
+
+/* Grid columns >> Global
+----------------------------------------------------------------------------------------------------*/
+#bfbox .gc1, #bfbox .gc2, #bfbox .gc3, #bfbox .gc4, #bfbox .gc5, #bfbox .gc6, #bfbox .gc7, #bfbox .gc8, #bfbox .gc9, #bfbox .gc10, #bfbox .gc11, #bfbox .gc12, #bfbox .gc13, #bfbox .gc14, #bfbox .gc15, #bfbox .gc16 
+{ display:inline; float: left; position: relative; margin-left: 1%; margin-right: 1%; }
+
+/* Grid >> Children (First Column, Last Column)
+----------------------------------------------------------------------------------------------------*/
+#bfbox .firstc { margin-left: 0; }
+#bfbox .lastc { margin-right: 0; }
+
+/* Grid >> 16 Columns
+----------------------------------------------------------------------------------------------------*/
+#bfbox .g16 .gc1 { width:4.25%; }
+#bfbox .g16 .gc2 { width:10.5%; }
+#bfbox .g16 .gc3 { width:16.75%; }
+#bfbox .g16 .gc4 { width:23.0%; }
+#bfbox .g16 .gc5 { width:29.25%; }
+#bfbox .g16 .gc6 { width:35.5%; }
+#bfbox .g16 .gc7 { width:41.75%; }
+#bfbox .g16 .gc8 { width:48.0%; }
+#bfbox .g16 .gc9 { width:54.25%; }
+#bfbox .g16 .gc10 { width:60.5%; }
+#bfbox .g16 .gc11 { width:66.75%; }
+#bfbox .g16 .gc12 { width:73.0%; }
+#bfbox .g16 .gc13 { width:79.25%; }
+#bfbox .g16 .gc14 { width:85.5%; }
+#bfbox .g16 .gc15 { width:91.75%; }
+#bfbox .g16 .gc16 { width:98.0%; margin-left:0; margin-right:0 }
+
+
+/*FONT SIZES*/
+#bfbox .fi { font-size: inherit; }
+#bfbox .xxs, #bfbox p.xxs, #bfbox td.xxs, #bfbox input.xxs, #bfbox select.xxs, #bfbox textarea.xxs, #bfbox a.xxs, #bfbox a.xxs:hover, #bfbox a.xxs:active, #bfbox a.xxs:visited  {font-size:9px}
+#bfbox .xs, #bfbox p.xs, #bfbox td.xs, #bfbox input.xs, #bfbox select.xs, #bfbox textarea.xs, #bfbox a.xs, #bfbox a.xs:hover, #bfbox a.xs:active, #bfbox a.xs:visited  {font-size:10px}
+#bfbox .xs1, #bfbox p.xs1,  #bfbox td.xs1, #bfbox input.xs1, #bfbox select.xs1, #bfbox textarea.xs1, #bfbox a.xs1,  #bfbox a.xs1:hover,  #bfbox a.xs1:active,  a.xs1:visited  {font-size:11px}
+#bfbox .xs2,  #bfbox p.xs2,  #bfbox td.xs2,  #bfbox input.xs2,  #bfbox select.xs2,  #bfbox textarea.xs2, #bfbox a.xs2,  #bfbox a.xs2:hover,  #bfbox a.xs2:active,  #bfbox a.xs2:visited  {font-size:12px}
+#bfbox .s, #bfbox p.s, #bfbox td.s, #bfbox input.s, #bfbox select.s, #bfbox textarea.s, #bfbox a.s, #bfbox a.s:hover, #bfbox a.s:active, #bfbox a.s:visited  {font-size:13px}
+#bfbox .s1,  #bfbox p.s1,  #bfbox td.s1,  #bfbox input.s1,  #bfbox select.s1,  #bfbox textarea.s1, #bfbox a.s1, #bfbox a.s1:hover,  #bfbox a.s1:active,  #bfbox a.s1:visited  {font-size:14px}
+#bfbox .s2,  #bfbox p.s2,  #bfbox td.s2,  #bfbox input.s2,  #bfbox select.s2,  #bfbox textarea.s2, #bfbox a.s2, #bfbox a.s2:hover,  #bfbox a.s2:active,  #bfbox a.s2:visited  {font-size:15px}
+#bfbox .m, #bfbox p.m, #bfbox td.m, #bfbox input.m, #bfbox select.m, #bfbox textarea.m, #bfbox a.m, #bfbox a.m:hover, #bfbox a.m:active, #bfbox a.m:visited  {font-size:16px}
+#bfbox .m1,  #bfbox p.m1,  #bfbox td.m1,  #bfbox input.m1,  #bfbox select.m1,  #bfbox textarea.m1, #bfbox a.m1, #bfbox a.m1:hover,  #bfbox a.m1:active, #bfbox a.m1:visited  {font-size:17px}
+#bfbox .m2,  #bfbox p.m2,  #bfbox td.m2,  #bfbox input.m2,  #bfbox select.m2,  #bfbox textarea.m2, #bfbox a.m2, #bfbox a.m2:hover,  #bfbox a.m2:active,  #bfbox a.m2:visited  {font-size:18px}
+#bfbox .l, #bfbox p.l, #bfbox td.l, #bfbox input.l, #bfbox select.l, #bfbox textarea.l, #bfbox a.l, #bfbox a.l:hover, #bfbox a.l:active, #bfbox a.l:visited  {font-size:19px}
+#bfbox .l1,  #bfbox p.l1,  #bfbox td.l1,  #bfbox input.l1,  #bfbox select.l1, #bfbox textarea.l1, #bfbox a.l1, #bfbox a.l1:hover,  #bfbox a.l1:active,  #bfbox a.l1:visited  {font-size:20px}
+#bfbox .l2,  #bfbox p.l2,  #bfbox td.l2,  #bfbox input.l2,  #bfbox select.l2, #bfbox textarea.l2, #bfbox a.l2, #bfbox a.l2:hover,  #bfbox a.l2:active,  #bfbox a.l2:visited  {font-size:22px}
+#bfbox .xl, #bfbox p.xl, #bfbox td.xl, #bfbox input.xl, #bfbox select.xl, #bfbox textarea.xl, #bfbox a.xl, #bfbox a.xl:hover, #bfbox a.xl:active, #bfbox a.xl:visited  {font-size:24px}
+#bfbox .xl1,  #bfbox p.xl1,  #bfbox td.xl1,  #bfbox input.xl1,  #bfbox select.xl1, #bfbox textarea.xl1, #bfbox a.xl1, #bfbox a.xl1:hover,  #bfbox a.xl1:active,  #bfbox a.xl1:visited  {font-size:26px}
+#bfbox .xl2,  #bfbox p.xl2,  #bfbox td.xl2,  #bfbox input.xl2,  #bfbox select.xl2, #bfbox textarea.xl2, #bfbox a.xl2,  #bfbox a.xl2:hover,  #bfbox a.xl2:active,  #bfbox a.xl2:visited  {font-size:28px}
+#bfbox .xxl, #bfbox p.xxl, #bfbox td.xxl, #bfbox input.xxl, #bfbox select.xxl, #bfbox textarea.xxl, #bfbox a.xxl, #bfbox a.xxl:hover, #bfbox a.xxl:active, #bfbox a.xxl:visited  {font-size:32px}
+
+#bfbox .f8, #bfbox p.f8, #bfbox td.f8, #bfbox input.f8, #bfbox select.f8, #bfbox textarea.f8, #bfbox a.f8, #bfbox a.f8:hover, #bfbox a.f8:active, #bfbox a.f8:visited {font-size: 8px } 
+#bfbox .f9, #bfbox p.f9, #bfbox td.f9, #bfbox input.f9, #bfbox select.f9, #bfbox textarea.f9, #bfbox a.f9, #bfbox a.f9:hover, #bfbox a.f9:active, #bfbox a.f9:visited {font-size: 9px } 
+#bfbox .f10, #bfbox p.f10, #bfbox td.f10, #bfbox input.f10, #bfbox select.f10, #bfbox textarea.f10, #bfbox a.f10, #bfbox a.f10:hover, #bfbox a.f10:active, #bfbox a.f10:visited {font-size: 10px } 
+#bfbox .f11, #bfbox p.f11, #bfbox td.f11, #bfbox input.f11, #bfbox select.f11, #bfbox textarea.f11, #bfbox a.f11, #bfbox a.f11:hover, #bfbox a.f11:active, #bfbox a.f11:visited {font-size: 11px } 
+#bfbox .f12, #bfbox p.f12, #bfbox td.f12, #bfbox input.f12, #bfbox select.f12, #bfbox textarea.f12, #bfbox a.f12, #bfbox a.f12:hover, #bfbox a.f12:active, #bfbox a.f12:visited {font-size: 12px } 
+#bfbox .f13, #bfbox p.f13, #bfbox td.f13, #bfbox input.f13, #bfbox select.f13, #bfbox textarea.f13, #bfbox a.f13, #bfbox a.f13:hover, #bfbox a.f13:active, #bfbox a.f13:visited {font-size: 13px } 
+#bfbox .f14, #bfbox p.f14, #bfbox td.f14, #bfbox input.f14, #bfbox select.f14, #bfbox textarea.f14, #bfbox a.f14, #bfbox a.f14:hover, #bfbox a.f14:active, #bfbox a.f14:visited {font-size: 14px } 
+#bfbox .f15, #bfbox p.f15, #bfbox td.f15, #bfbox input.f15, #bfbox select.f15, #bfbox textarea.f15, #bfbox a.f15, #bfbox a.f15:hover, #bfbox a.f15:active, #bfbox a.f15:visited {font-size: 15px } 
+#bfbox .f16, #bfbox p.f16, #bfbox td.f16, #bfbox input.f16, #bfbox select.f16, #bfbox textarea.f16, #bfbox a.f16, #bfbox a.f16:hover, #bfbox a.f16:active, #bfbox a.f16:visited {font-size: 16px } 
+#bfbox .f17, #bfbox p.f17, #bfbox td.f17, #bfbox input.f17, #bfbox select.f17, #bfbox textarea.f17, #bfbox a.f17, #bfbox a.f17:hover, #bfbox a.f17:active, #bfbox a.f17:visited {font-size: 17px } 
+#bfbox .f18, #bfbox p.f18, #bfbox td.f18, #bfbox input.f18, #bfbox select.f18, #bfbox textarea.f18, #bfbox a.f18, #bfbox a.f18:hover, #bfbox a.f18:active, #bfbox a.f18:visited {font-size: 18px } 
+#bfbox .f19, #bfbox p.f19, #bfbox td.f19, #bfbox input.f19, #bfbox select.f19, #bfbox textarea.f19, #bfbox a.f19, #bfbox a.f19:hover, #bfbox a.f19:active, #bfbox a.f19:visited {font-size: 19px } 
+#bfbox .f20, #bfbox p.f20, #bfbox td.f20, #bfbox input.f20, #bfbox select.f20, #bfbox textarea.f20, #bfbox a.f20, #bfbox a.f20:hover, #bfbox a.f20:active, #bfbox a.f20:visited {font-size: 20px } 
+#bfbox .f21, #bfbox p.f21, #bfbox td.f21, #bfbox input.f21, #bfbox select.f21, #bfbox textarea.f21, #bfbox a.f21, #bfbox a.f21:hover, #bfbox a.f21:active, #bfbox a.f21:visited {font-size: 21px } 
+#bfbox .f22, #bfbox p.f22, #bfbox td.f22, #bfbox input.f22, #bfbox select.f22, #bfbox textarea.f22, #bfbox a.f22, #bfbox a.f22:hover, #bfbox a.f22:active, #bfbox a.f22:visited {font-size: 22px } 
+#bfbox .f23, #bfbox p.f23, #bfbox td.f23, #bfbox input.f23, #bfbox select.f23, #bfbox textarea.f23, #bfbox a.f23, #bfbox a.f23:hover, #bfbox a.f23:active, #bfbox a.f23:visited {font-size: 23px } 
+#bfbox .f24, #bfbox p.f24, #bfbox td.f24, #bfbox input.f24, #bfbox select.f24, #bfbox textarea.f24, #bfbox a.f24, #bfbox a.f24:hover, #bfbox a.f24:active, #bfbox a.f24:visited {font-size: 24px } 
+#bfbox .f25, #bfbox p.f25, #bfbox td.f25, #bfbox input.f25, #bfbox select.f25, #bfbox textarea.f25, #bfbox a.f25, #bfbox a.f25:hover, #bfbox a.f25:active, #bfbox a.f25:visited {font-size: 25px } 
+#bfbox .f26, #bfbox p.f26, #bfbox td.f26, #bfbox input.f26, #bfbox select.f26, #bfbox textarea.f26, #bfbox a.f26, #bfbox a.f26:hover, #bfbox a.f26:active, #bfbox a.f26:visited {font-size: 26px } 
+#bfbox .f27, #bfbox p.f27, #bfbox td.f27, #bfbox input.f27, #bfbox select.f27, #bfbox textarea.f27, #bfbox a.f27, #bfbox a.f27:hover, #bfbox a.f27:active, #bfbox a.f27:visited {font-size: 27px } 
+#bfbox .f28, #bfbox p.f28, #bfbox td.f28, #bfbox input.f28, #bfbox select.f28, #bfbox textarea.f28, #bfbox a.f28, #bfbox a.f28:hover, #bfbox a.f28:active, #bfbox a.f28:visited {font-size: 28px } 
+#bfbox .f29, #bfbox p.f29, #bfbox td.f29, #bfbox input.f29, #bfbox select.f29, #bfbox textarea.f29, #bfbox a.f29, #bfbox a.f29:hover, #bfbox a.f29:active, #bfbox a.f29:visited {font-size: 29px } 
+#bfbox .f30, #bfbox p.f30, #bfbox td.f30, #bfbox input.f30, #bfbox select.f30, #bfbox textarea.f30, #bfbox a.f30, #bfbox a.f30:hover, #bfbox a.f30:active, #bfbox a.f30:visited {font-size: 30px } 
+#bfbox .f31, #bfbox p.f31, #bfbox td.f31, #bfbox input.f31, #bfbox select.f31, #bfbox textarea.f31, #bfbox a.f31, #bfbox a.f31:hover, #bfbox a.f31:active, #bfbox a.f31:visited {font-size: 31px } 
+#bfbox .f32, #bfbox p.f32, #bfbox td.f32, #bfbox input.f32, #bfbox select.f32, #bfbox textarea.f32, #bfbox a.f32, #bfbox a.f32:hover, #bfbox a.f32:active, #bfbox a.f32:visited {font-size: 32px } 
+#bfbox .f33, #bfbox p.f33, #bfbox td.f33, #bfbox input.f33, #bfbox select.f33, #bfbox textarea.f33, #bfbox a.f33, #bfbox a.f33:hover, #bfbox a.f33:active, #bfbox a.f33:visited {font-size: 33px } 
+#bfbox .f34, #bfbox p.f34, #bfbox td.f34, #bfbox input.f34, #bfbox select.f34, #bfbox textarea.f34, #bfbox a.f34, #bfbox a.f34:hover, #bfbox a.f34:active, #bfbox a.f34:visited {font-size: 34px } 
+#bfbox .f35, #bfbox p.f35, #bfbox td.f35, #bfbox input.f35, #bfbox select.f35, #bfbox textarea.f35, #bfbox a.f35, #bfbox a.f35:hover, #bfbox a.f35:active, #bfbox a.f35:visited {font-size: 35px } 
+#bfbox .f36, #bfbox p.f36, #bfbox td.f36, #bfbox input.f36, #bfbox select.f36, #bfbox textarea.f36, #bfbox a.f36, #bfbox a.f36:hover, #bfbox a.f36:active, #bfbox a.f36:visited {font-size: 36px } 
+#bfbox .f37, #bfbox p.f37, #bfbox td.f37, #bfbox input.f37, #bfbox select.f37, #bfbox textarea.f37, #bfbox a.f37, #bfbox a.f37:hover, #bfbox a.f37:active, #bfbox a.f37:visited {font-size: 37px } 
+#bfbox .f38, #bfbox p.f38, #bfbox td.f38, #bfbox input.f38, #bfbox select.f38, #bfbox textarea.f38, #bfbox a.f38, #bfbox a.f38:hover, #bfbox a.f38:active, #bfbox a.f38:visited {font-size: 38px } 
+#bfbox .f39, #bfbox p.f39, #bfbox td.f39, #bfbox input.f39, #bfbox select.f39, #bfbox textarea.f39, #bfbox a.f39, #bfbox a.f39:hover, #bfbox a.f39:active, #bfbox a.f39:visited {font-size: 39px } 
+#bfbox .f40, #bfbox p.f40, #bfbox td.f40, #bfbox input.f40, #bfbox select.f40, #bfbox textarea.f40, #bfbox a.f40, #bfbox a.f40:hover, #bfbox a.f40:active, #bfbox a.f40:visited {font-size: 40px } 
+
+/* CMD CLASSES */
+#bfbox .cmd, #bfbox a.cmd, #bfbox a.cmd:hover, #bfbox a.cmd:active, #bfbox a.cmd:visited { font-weight:bold; color:Red; font-size: 11px; text-decoration: underline;}
+#bfbox .cmd1, #bfbox a.cmd1, #bfbox a.cmd1:hover, #bfbox a.cmd1:active, #bfbox a.cmd1:visited { font-weight:bold; color:Red; font-size: 12px; text-decoration: underline;}
+#bfbox .cmd2, #bfbox a.cmd2, #bfbox a.cmd2:hover, #bfbox a.cmd2:active, #bfbox a.cmd2:visited { font-weight:bold; color:Red; font-size: 13px; text-decoration: underline;}
+#bfbox .cmd3, #bfbox a.cmd3, #bfbox a.cmd3:hover, #bfbox a.cmd3:active, #bfbox a.cmd3:visited { font-weight:bold; color:Red; font-size: 14px; text-decoration: underline;}
+#bfbox .cmd4, #bfbox a.cmd4, #bfbox a.cmd4:hover, #bfbox a.cmd4:active, #bfbox a.cmd4.visited { font-weight:bold; color:Red; font-size: 15px; text-decoration: underline;}
+
+
+
+
+/*****************************************************
+**BIGFOOTMVC ELEMENTS
+******************************************************/
+/* FLASH MESSAGE */
+#bigfootMVC_flash { z-index:50000; border:1px solid #CCCCCC; position:absolute; right:0px; top:5px; font-size:14px; padding:5px 5px 5px 30px; text-align:left; }
+#bigfootMVC_flash.flash_notice { background:#E2F9E3 url(../images/alert_notice.gif) no-repeat scroll left center; border-color:#99CC99; color:#006600;}
+#bigfootMVC_flash.flash_loading { background:#FFFF00 url(../images/alert_progress.gif) no-repeat scroll left center; border-color:#C3A810; color:#000000;}
+#bigfootMVC_flash.flash_alert { background:#CC0000 url(../images/alert_error.gif) no-repeat scroll left center; border-color:#CC9999; color:#FFFFFF; }
+#bigfootMVC_flash.flash_alert a { color:#FFFFFF; }
+#bigfootMVC_flash.flash_alert a:hover { background:#000000 none repeat scroll 0%; }
+
+/* SYSTEM ERROR */
+#bigfootMVC_SystemError { display: none; z-index: 50000; width:700px; height:500px;  background-color:#FFF; 
+                          border:10px solid #892727; -moz-box-shadow:0 0 30px 5px #000; -webkit-box-shadow: 0 0 30px #000;}
+#bigfootMVC_SystemError iframe {width:700px; height:500px;}
+#bigfootMVC_SystemError a.close { background-color:Black; color:White; font-size:14px; font-weight:bold; 
+                                  position : absolute; top:0px; right:0px; padding:5px; text-decoration:none; }
+
+/* ERROR MESSAGES */
+.error {color:Red; font-family:Verdana;}
+label.error { font-weight:normal !important; font-size: 12px!important; float: none; color: red; vertical-align: top; padding-left:5px; }
+#bfbox .error {color:Red; font-family:Verdana;}
+#bfbox label.error { font-weight:normal !important; font-size: 12px!important; float: none; color: red; vertical-align: top; padding-left:5px; }
+
+/*PAGINATION PLUGIN*/
+/*.pagination { font-size: 80%;}*/
+.pagination a { text-decoration: none; border: solid 1px #AAE; color: #15B; }
+.pagination a, .pagination span { display: block; float: left; padding: 0.3em 0.5em; margin-right: 5px; margin-bottom: 5px; min-width:1em; text-align:center; }
+.pagination .current { background: #26B; color: #fff; border: solid 1px #AAE; }
+.pagination .current.prev, .pagination .current.next{ color:#999; border-color:#999; background:#fff; }
+
+/*OVERLAY*/
+/*  simple_overlay*/
+.simple_overlay { display:none; background-color:#FFF; min-height:200px; border:1px solid #666; -moz-box-shadow:0 0 30px 5px #000; -webkit-box-shadow: 0 0 30px #000; }
+
+/*PLACEHOLDER*/
+.placeholder { color: #969696; }
+.placeholderFocus { color: #000; }

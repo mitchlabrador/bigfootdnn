@@ -101,7 +101,22 @@
     <Compile Include="Validation\ValidatorResult.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\bigfoot.css" />
+    <Content Include="Content\images\alert_error.gif" />
+    <Content Include="Content\images\alert_notice.gif" />
+    <Content Include="Content\images\alert_progress.gif" />
+    <Content Include="Content\js\bigfoot.js" />
+    <Content Include="Content\js\libraries\jquery.autocomplete.min.js" />
+    <Content Include="Content\js\libraries\jquery.centerxy-1.0.js" />
+    <Content Include="Content\js\libraries\jquery.form-2.87.js" />
+    <Content Include="Content\js\libraries\jquery.metadata-2.1.js" />
+    <Content Include="Content\js\libraries\jquery.placeholder-0.4.js" />
+    <Content Include="Content\js\libraries\jquery.tools.overlay-1.2.6.js" />
+    <Content Include="Content\js\libraries\jquery.validate-1.8.1.js" />
+    <Content Include="Content\js\libraries\jquery.validate.additional-methods-1.8.1.js" />
+    <Content Include="Content\js\libraries\json2.js" />
     <Content Include="_References\DNN.06.00.01\DotNetNuke.dll" />
+    <Content Include="_References\DNN.06.00.01\DotNetNuke.Instrumentation.dll" />
     <Content Include="_References\DNN.06.00.01\DotNetNuke.Web.dll" />
     <Content Include="_References\DNN.06.00.01\DotNetNuke.WebUtility.dll" />
   </ItemGroup>
@@ -109,6 +124,7 @@
     <None Include="LICENSE" />
     <None Include="README.md" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

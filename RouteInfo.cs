@@ -63,10 +63,13 @@ namespace BigfootDNN
             {
                 var defaultController = "Home";
                 var defaultAction = "index";
-                if (module.Settings["DefaultController"] != null)
+                var settController = module.Settings["DefaultController"];
+                var settAction = module.Settings["DefaultAction"];
+                if ((settController != null && !settController.ToString().IsNullOrEmpty()) &&
+                    (settAction != null && !settAction.ToString().IsNullOrEmpty()))
                 {
-                    defaultController = module.Settings["DefaultController"].ToString();
-                    defaultAction = module.Settings["DefaultAction"].ToString();
+                    defaultController = settController.ToString();
+                    defaultAction = settAction.ToString();
                 }
 
                 // Create the default route for this module
