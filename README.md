@@ -8,7 +8,7 @@ A while back I wanted to create a way to do MVC style development in ASP.NET Web
 
 This is definitely a work in progress an requires a ton of testing including a few solid refactoring passes, but it creates a good foundation for the work to begin. I will be creating a sample project to showcase how to best utilize the framework as I develop it into my new commercial module for DNN.
 
-**A few of highlights...**
+**A few highlights...**
  - Rendering is done using the Razor view engine
  - A full and extensive set of helper methods for Html / JavaScript / Ajax patterns
  - An accompanying **bigfoot.js** javascript library to provide the JS functionality for the helpers
