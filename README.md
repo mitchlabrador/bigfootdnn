@@ -19,5 +19,6 @@ This is definitely a work in progress an requires a ton of testing including a f
 **Requirements:**
  - .NET 4.0 and above
  - DNN 6.0.1 and above
+ - jQuery (used by the helpers extensively)
 
 **Finally...** This effort also flows from a lot of the great open source code around the web which has served to inspire this effort. Very little code is new anymore, more often than not our code is a recycling of old ideas implemented in slightly different ways for specific contexts. HostRazor module, DNN Community engine, etc. have been but a few of the projects that have inspired a lot of this effort.
