@@ -1,7 +1,7 @@
-bigfootdnn
+BigfootDNN
 ==========
 
-MVC Framework for DNN (DotNetNuke)
+**MVC Framework for DNN (DotNetNuke)**
 
 **A bit of history...**
 A while back I wanted to create a way to do MVC style development in ASP.NET WebForms to this end I created BigfootMVC (http://bigfootmvc.codeplex.com). BigfootMVC was later expanded to allow MVC development on the DNN platform. The end result was a hybrid framework that allowed me to execute MVC style rendering as well as dynamic rendering of WebForms controls. This worked fine and was used in several production environments including a commercial module. I was never quite happy with it however as I wanted something that was a bit more specific to MVC style development in DNN. BigfootDNN is my effort at making BigfootMVC a focused MVC framework for DNN.
