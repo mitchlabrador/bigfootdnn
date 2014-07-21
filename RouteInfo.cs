@@ -541,7 +541,7 @@ namespace BigfootDNN
                          User.IsInRole("Administrators"));
             }
         }
-
+        
         /// <summary>
         /// Determines if the user is a host user
         /// </summary>

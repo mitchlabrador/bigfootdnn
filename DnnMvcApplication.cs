@@ -22,6 +22,10 @@ using DotNetNuke.Services.Mail;
 using MailPriority = DotNetNuke.Services.Mail.MailPriority;
 using DotNetNuke.Entities.Controllers;
 using DotNetNuke.UI.Modules;
+using DotNetNuke.Instrumentation;
+using DotNetNuke.Common.Utilities;
+using DotNetNuke.Services.FileSystem;
+using DotNetNuke.Security;
 
 namespace BigfootDNN
 {
@@ -41,11 +45,11 @@ namespace BigfootDNN
         /// </summary>
         public AppInfo Info { get; set; }
 
-        /// <summary>
-        /// Holds the ability to make unique keys for caching, querystring parameter names, etc.
-        /// </summary>
-        public DnnAppParams Keys { get { return _keys ?? (_keys = new DnnAppParams(Route)); } }
-        private DnnAppParams _keys;
+        ///// <summary>
+        ///// Holds the ability to make unique keys for caching, querystring parameter names, etc.
+        ///// </summary>
+        //public DnnAppParams Keys { get { return _keys ?? (_keys = new DnnAppParams(Route)); } }
+        //private DnnAppParams _keys;
 
         public DnnMvcApplication(AppInfo appInfo, RouteInfo route)
         {
@@ -62,7 +66,7 @@ namespace BigfootDNN
         {
             get
             {
-                var key = Keys.Cache_ProviderConfiguration();
+                var key = GetCacheKeyForHost("ProviderConfiguration");
                 if (!SimpleCache.Contains(key))
                 {
                     SimpleCache.Add(key, new DataProvider(Info.ModuleDBObjectQualifier));
@@ -971,6 +975,12 @@ namespace BigfootDNN
 
         #region "Encryption"
 
+        private PortalSecurity _portalSecurity;
+        public PortalSecurity GetPortalSecurity()
+        {
+            return _portalSecurity ?? (_portalSecurity = new PortalSecurity());
+        }
+
         /// <summary>
         /// Encrypts a value with the specified key using DES encryption
         /// </summary>
@@ -979,32 +989,33 @@ namespace BigfootDNN
         /// <returns>Base64 encrypted string</returns>
         public string Encrypt(string key, string data)
         {
-            // don't do anything if the key is empty
-            if (string.IsNullOrEmpty(key)) return data;
+            return GetPortalSecurity().Encrypt(key, data);
+            //// don't do anything if the key is empty
+            //if (string.IsNullOrEmpty(key)) return data;
 
-            // normalize the key to 16 characters
-            if (key.Length < 16)
-                key = key + "XXXXXXXXXXXXXXXX".Substring(0, 16 - key.Length);
-            else
-                key = key.Substring(0, 16);
+            //// normalize the key to 16 characters
+            //if (key.Length < 16)
+            //    key = key + "XXXXXXXXXXXXXXXX".Substring(0, 16 - key.Length);
+            //else
+            //    key = key.Substring(0, 16);
 
-            // create encryption key
-            var bytekey = Encoding.UTF8.GetBytes(key.Substring(0, 8));
-            var bytevector = Encoding.UTF8.GetBytes(key.Substring(8));
+            //// create encryption key
+            //var bytekey = Encoding.UTF8.GetBytes(key.Substring(0, 8));
+            //var bytevector = Encoding.UTF8.GetBytes(key.Substring(8));
 
-            // Convert the data
-            var bytedata = Encoding.UTF8.GetBytes(data);
+            //// Convert the data
+            //var bytedata = Encoding.UTF8.GetBytes(data);
 
-            // Encrypt
-            var des = new DESCryptoServiceProvider();
-            var memstream = new MemoryStream();
-            var cryptostream = new CryptoStream(memstream, des.CreateEncryptor(bytekey, bytevector),
-                                                CryptoStreamMode.Write);
-            cryptostream.Write(bytedata, 0, bytedata.Length);
-            cryptostream.FlushFinalBlock();
+            //// Encrypt
+            //var des = new DESCryptoServiceProvider();
+            //var memstream = new MemoryStream();
+            //var cryptostream = new CryptoStream(memstream, des.CreateEncryptor(bytekey, bytevector),
+            //                                    CryptoStreamMode.Write);
+            //cryptostream.Write(bytedata, 0, bytedata.Length);
+            //cryptostream.FlushFinalBlock();
 
-            // covert to string and base64 encode
-            return Convert.ToBase64String(memstream.ToArray());
+            //// covert to string and base64 encode
+            //return Convert.ToBase64String(memstream.ToArray());
         }
 
         /// <summary>
@@ -1015,45 +1026,46 @@ namespace BigfootDNN
         /// <returns>Decripted string</returns>
         public string Decrypt(string key, string data)
         {
-            // don't do anything if the key is empty
-            if (string.IsNullOrEmpty(key)) return data;
+            return GetPortalSecurity().Decrypt(key, data);
+            //// don't do anything if the key is empty
+            //if (string.IsNullOrEmpty(key)) return data;
 
-            // normalize the key to 16 characters
-            if (key.Length < 16)
-                key = key + "XXXXXXXXXXXXXXXX".Substring(0, 16 - key.Length);
-            else
-                key = key.Substring(0, 16);
+            //// normalize the key to 16 characters
+            //if (key.Length < 16)
+            //    key = key + "XXXXXXXXXXXXXXXX".Substring(0, 16 - key.Length);
+            //else
+            //    key = key.Substring(0, 16);
 
-            // create encryption key
-            var bytekey = Encoding.UTF8.GetBytes(key.Substring(0, 8));
-            var bytevector = Encoding.UTF8.GetBytes(key.Substring(8));
+            //// create encryption key
+            //var bytekey = Encoding.UTF8.GetBytes(key.Substring(0, 8));
+            //var bytevector = Encoding.UTF8.GetBytes(key.Substring(8));
 
-            byte[] bytedata;
-            try
-            {
-                bytedata = Convert.FromBase64String(data);
-            }
-            // return the data unchanged if there is some sort of error converting
-            catch (Exception)
-            {
-                return data;
-            }
+            //byte[] bytedata;
+            //try
+            //{
+            //    bytedata = Convert.FromBase64String(data);
+            //}
+            //// return the data unchanged if there is some sort of error converting
+            //catch (Exception)
+            //{
+            //    return data;
+            //}
 
-            // Run the decryption
-            try
-            {
-                var des = new DESCryptoServiceProvider();
-                var ms = new MemoryStream();
-                var cs = new CryptoStream(ms, des.CreateDecryptor(bytekey, bytevector), CryptoStreamMode.Write);
-                cs.Write(bytedata, 0, bytedata.Length);
-                cs.FlushFinalBlock();
+            //// Run the decryption
+            //try
+            //{
+            //    var des = new DESCryptoServiceProvider();
+            //    var ms = new MemoryStream();
+            //    var cs = new CryptoStream(ms, des.CreateDecryptor(bytekey, bytevector), CryptoStreamMode.Write);
+            //    cs.Write(bytedata, 0, bytedata.Length);
+            //    cs.FlushFinalBlock();
 
-                return Encoding.UTF8.GetString(ms.ToArray());
-            }
-            catch (Exception)
-            {
-                return "";
-            }
+            //    return Encoding.UTF8.GetString(ms.ToArray());
+            //}
+            //catch (Exception)
+            //{
+            //    return "";
+            //}
         }
 
         #endregion
@@ -1068,7 +1080,7 @@ namespace BigfootDNN
         {
             get
             {
-                var key = Keys.HostKey("poster_values");
+                var key = Route.App.GetCacheKeyForHost("poster_values");
                 if (!ContextHelper.HasData(key))
                     ContextHelper.SetData(key, new PostHelper(Context, null, InTestingMode));
 
@@ -1350,7 +1362,7 @@ namespace BigfootDNN
         #endregion
 
 
-        #region Common Functions: uid
+        #region Common Functions: uid | CleanInput | CleanInput_NoMarkupNoScript
 
         /// <summary>
         /// Creates a unique client id specific to this module instance on the page. This is useful when refering to element ids from javascript as
@@ -1364,8 +1376,160 @@ namespace BigfootDNN
             return id + "_" + Route.ModuleId;
         }
 
+        public string CleanInput_NoMarkupNoScript(string input)
+        {
+            return CleanInput(input, PortalSecurity.FilterFlag.NoMarkup | PortalSecurity.FilterFlag.NoScripting);
+        }
+
+        public string CleanInput(string input, PortalSecurity.FilterFlag filterOptions)
+        {
+            return GetPortalSecurity().InputFilter(input, PortalSecurity.FilterFlag.NoMarkup | PortalSecurity.FilterFlag.NoSQL | PortalSecurity.FilterFlag.NoScripting);
+        }
+
         #endregion
 
+
+        #region Logging
+        public void LogError(object message)
+        {
+
+            DnnLog.Error(message);
+        }
+
+        public void LogErrorFormat(string message, params string[] values)
+        {
+            DnnLog.Error(message, values);
+        }
+
+        public void LogError(string message, Exception ex)
+        {
+            DnnLog.Error(message, ex);
+        }
+
+        public void LogDebug(object message)
+        {
+            DnnLog.Debug(message);
+        }
+
+        public void LogDebug(string message, params string[] values)
+        {
+            DnnLog.Debug(message, values);
+        }
+
+        public void LogInfo(object message)
+        {
+            DnnLog.Info(message);
+        }
+
+        public void LogInfo(string message, params string[] values)
+        {
+            DnnLog.Info(message, values);
+        }
+
+        public void LogWarning(object message)
+        {
+            DnnLog.Warn(message);
+        }
+
+        public void LogWarning(string message, params string[] values)
+        {
+            DnnLog.Warn(message, values);
+        }
+
+        public void LogWarning(string message, Exception ex)
+        {
+            DnnLog.Warn(message, ex);
+        }
+
+        public void LogFatal(object message)
+        {
+            DnnLog.Fatal(message);
+        }
+
+        public void LogFatal(string message, params string[] values)
+        {
+            DnnLog.Fatal(message, values);
+        }
+
+        public void LogFatal(string message, Exception ex)
+        {
+            DnnLog.Fatal(message, ex);
+        }
+        #endregion
+
+
+        #region DataCache (DNN Cache)
+
+        /// <summary>
+        /// Creates a unique parameter for your module that is unique for this DNN installation. Does not differentiate accross portals, or module instances.
+        /// This is particularly useful for things like the database provider cache key etc.
+        /// </summary>
+        /// <param name="key">The parameter name to create</param>
+        /// <returns>Returns {key}_mn_{ModuleShortName}</returns>
+        public string GetCacheKeyForHost(string key)
+        {
+            return key + "_mn_" + Info.ModuleShortName;
+        }
+
+        /// <summary>
+        /// Creates a unique parameter for your module that is unique for this specific portal. Does not differentiate accross module instances within this portal.
+        /// This is particularly useful for things like portal specific data caches etc.
+        /// </summary>
+        /// <param name="key">The parameter name to create</param>
+        /// <returns>Returns {key}_mn_{moduleshortname}_pid_{portalId}</returns>
+        public string GetCacheKeyForPortal(string key)
+        {
+            return key + "_mn_" + Info.ModuleShortName + "_pid_" + Route.PortalId;
+        }
+
+        /// <summary>
+        /// Creates a unique parameter for your module that is unique for this specific module instance
+        /// This is particularly useful for things like module instance route etc.
+        /// </summary>
+        /// <param name="key">The parameter name to create</param>
+        /// <returns>Returns {key}_pid_{portalId}</returns>
+        public string GetCacheKeyForModule(string key)
+        {
+            return key + "_mid_" + Route.ModuleId;
+        }
+
+        /// <summary>
+        /// Sets an item in the DNN cache. Replaces if already found
+        /// </summary>
+        /// <typeparam name="T">The type of item</typeparam>
+        /// <param name="toSet">The object to set</param>
+        /// <param name="key">The key to use</param>
+        public static void SetItemInDnnCache<T>(T toSet, string key)
+        {
+            DataCache.SetCache(key, toSet);
+        }
+
+        /// <summary>
+        /// Retreives an item from the DnnCache for the key specified
+        /// </summary>
+        public static T GetItemFromDnnCache<T>(string key)
+        {
+            return (T)DataCache.GetCache(key);
+        }
+
+        /// <summary>
+        /// Determines whether a certain item exists in the DnnCache
+        /// </summary>
+        public static bool ItemExistsInDnnCache(string key)
+        {
+            return DataCache.GetCache(key) != null;
+        }
+
+        #endregion
+
+
+        #region DnnFolders | DnnFiles
+
+        public IFolderManager Folders { get { return FolderManager.Instance; } }
+
+        public IFileManager Files { get { return FileManager.Instance; } }
+
+        #endregion
 
     }
 
