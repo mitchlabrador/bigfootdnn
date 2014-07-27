@@ -321,6 +321,82 @@ var bigfootMVC = {
     //#endregion
 
 
+    S4: function() {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    },
+
+    generateGuid: function() {
+        return (bigfootMVC.S4() + bigfootMVC.S4() + "-" + bigfootMVC.S4() + "-" + bigfootMVC.S4() + "-" + bigfootMVC.S4() + "-" + bigfootMVC.S4() + bigfootMVC.S4() + bigfootMVC.S4());
+    },
+
+    //#region Bootstrap Modal
+
+    //title: string | default: none | modal title 
+    //backdrop: boolean or the string 'static' | default: static | Includes a modal-backdrop element. Alternatively, specify static for a backdrop which doesn't close the modal on click.
+    //keyboard:	boolean| default: true | Closes the modal when escape key is pressed
+    //show:	boolean	| default: true | Shows the modal when initialized
+    //footer:	boolean	| default: false | Shows the footer 
+    //size: small, large | default: undefined 
+    //onClose: on close callback
+    showModal: function(data, _options) {
+        
+        var modalId = bigfootMVC.generateGuid();
+        var options = {
+            backdrop: 'static',
+            keyboard: true,
+            show: true,
+            footer: false,
+            title: ''
+        };
+        
+        // Merge the caller parameters options parameter
+        if (_options) {
+            $.extend(options, _options);
+        }
+        var size = "";
+        if(options.size === 'small') {
+            size = "modal-sm";
+        }
+        else if(options.size === 'large') {
+            size = "modal-lg"; 
+        }
+
+        var containerSelector = options.appendToForm == true ? "form:eq(0)" : "body";        
+        var modalDiv ='<div id="' + modalId +'" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="' + options.title + '" aria-hidden="true">';
+        modalDiv += '   <div class="modal-dialog ' + size + '">';
+        modalDiv += '       <div class="modal-content">';
+        
+        modalDiv += '           <div class="modal-header">';
+        modalDiv += '               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>';
+        if (options.title && options.title.trim().length > 0) {
+            modalDiv += '               <h4 class="modal-title">' + options.title + '</h4>';
+        }
+        modalDiv += '           </div>';
+        modalDiv += '           <div class="modal-body">';
+        modalDiv += '                   ' + data ;      
+        modalDiv += '           </div>';
+
+        if (options.footer === true) {
+            modalDiv += '           <div class="modal-footer">';
+            modalDiv += '               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
+            modalDiv += '           </div>';
+        }
+
+        modalDiv += '       </div>';
+        modalDiv += '   </div>';
+        modalDiv += '</div>';
+
+        $(containerSelector).append(modalDiv);        
+        $("#" + modalId).modal(options);
+
+        $("#" + modalId).on("hidden.bs.modal", function (e) {            
+            $('#' + modalId).remove();
+            if (options.onClose && (typeof options.onClose) == 'function') { setTimeout(options.onClose, 100); }
+        })
+    },
+    //#endregion
+
+
     //******************************************************
     // HELPER FUNCTIONS
     //******************************************************
@@ -530,7 +606,20 @@ var bigfootMVC = {
         ///     Serializes the fields in a partial form and returns them as a json object
         /// </summary>
         var selector = bf.createFormElementSelector(formId);
-        return $(selector).fieldSerialize();
+        //return $(selector).fieldSerialize();       
+        var o = {};
+        var a = $(selector).serializeArray();
+        $.each(a, function () {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
     },
 
 
@@ -544,6 +633,7 @@ var bigfootMVC = {
         ///	<param name="options" type="function">
         ///		Set of options and actions to take for the execution of the ajax request
         ///	</param>
+        //debugger;
 
         // Defaults
         var options = {
@@ -575,11 +665,13 @@ var bigfootMVC = {
         
         // Serialize the partial form into the postData
         if (options.formId != "") {
-            options.formId = bf.formatAsJQId(options.formId);
-            if (options.isPartialForm) {            
+            options.formId = bf.formatAsJQId(options.formId);            
+            if (options.isPartialForm)
+            {
                 $.extend(options.postData, bf.serializePartialForm(options.formId));
             }
-            else {
+            else
+            {
                 $.extend(options.postData, $(options.formId).formToArray());
             }
         }
@@ -588,7 +680,7 @@ var bigfootMVC = {
         if (options.formId != "" && options.validate) {
             var isValid = false;
             if (options.isPartialForm) {
-                isValid = bf.validatePartialForm(options.formId)();
+                isValid = bf.validatePartialForm(options.formId);
             }
             else {
                 isValid = $(options.formId).validate({ onsubmit: false, debug: false }).form();
@@ -602,33 +694,35 @@ var bigfootMVC = {
         }
 
         // Execute the request (http://api.jquery.com/jquery.ajax/)
-        $[options.method](options.url, {
+        $.ajax({
+            url: options.url,
+            type: options.method,
             data: options.postData, 
             success: function (data, status, jqXHR) {
-                
+                debugger;
                 // Update panel
                 if (options.updatePanel != "") {
-                    id(options.updatePanel).html(data);
+                    bf.id(options.updatePanel).html(data);
                 }
 
                 // Remove element
                 if (options.removeElement != "") {
-                    id(options.removeElement).remove();
+                    bf.id(options.removeElement).remove();
                 }
 
                 // Hide element
                 if (options.hideElement != "") {
-                    id(options.hideElement).hide();
+                    bf.id(options.hideElement).hide();
                 }
 
                 // Show Element
                 if (options.showElement != "") {
-                    id(options.showElement).show();
+                    bf.id(options.showElement).show();
                 }
 
                 // Remove Classes
                 if (options.removeClassFromElement != "" && options.removeClassFromElementClassNames != "") {
-                    id(options.removeClassFromElement).removeClass(options.removeClassFromElementClassNames);
+                    bf.id(options.removeClassFromElement).removeClass(options.removeClassFromElementClassNames);
                 }
                 
                 // Clear the form and associated validation
@@ -641,17 +735,12 @@ var bigfootMVC = {
 
                 // Set the focus
                 if (options.focus != "") {
-                    id(options.focus).focus();
-                }
-
-                // Redirect to url
-                if (options.redirectToUrl != "" && !bf.errorHappened) {
-                    window.location = options.redirectToUrl;
+                    bf.id(options.focus).focus();
                 }
 
                 // Load url into element
                 if (options.loadUrl != "" && options.loadElement != "") {
-                    id(options.loadElement).load(options.loadUrl).show();
+                    bf.id(options.loadElement).load(options.loadUrl).show();
                 }
 
                 // Success message
@@ -661,7 +750,12 @@ var bigfootMVC = {
 
                 // Callback function
                 if (options.callback != "") {
-                    (options.callback)();
+                    (options.callback)(data, status, jqXHR);
+                }
+
+                // Redirect to url
+                if (options.redirectToUrl != "" && !bf.errorHappened) {
+                    window.location = options.redirectToUrl;
                 }
 
             }
@@ -683,6 +777,7 @@ var bigfootMVC = {
         ///<summary>
         /// Submits the parent form of a particular elemnt
         ///</summary>  
+        debugger;
         bf.submitForm($(elem).parents("form:eq(0)"), arguments[1]);
     },
 
@@ -690,7 +785,7 @@ var bigfootMVC = {
         ///<summary>
         /// Submits the form with the id specified. You may also pass a jquery object with the form selected
         ///</summary>        
-
+        debugger;
         var options = {            
             validate: true,
             validatePartialFormId: "",

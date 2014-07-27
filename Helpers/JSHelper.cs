@@ -853,7 +853,7 @@ namespace BigfootDNN.Helpers
         /// <param name="ValueType">The type of value being added. If a string, it will be escaped and quoted</param>
         public JSObject Add(string name, string value, ValueTypeEnum ValueType)
         {
-            if (ValueType == ValueTypeEnum.String) value = JSBuilder.GetString(value);
+            if (ValueType == ValueTypeEnum.String) value = JSBuilder.GetString(value, true);
             Data.Add(name, value);
             return this;
         }
@@ -1504,8 +1504,8 @@ namespace BigfootDNN.Helpers
         /// <param name="function">This could be any valid javscript, either ExecuteOnSuccess() or some actual script like function(data){ alert(data); } </param>
         public AjaxRequest Callback(string function)
         {
-            if (!function.Trim().EndsWith(")"))
-                function += "()";
+            //if (!function.Trim().EndsWith(")"))
+            //    function += "()";
             _callback = function;
             return this;
         }
@@ -1518,7 +1518,7 @@ namespace BigfootDNN.Helpers
         public AjaxRequest CallbackJavascript(string javascript)
         {
             if (!javascript.Trim().EndsWith(";")) javascript += ";";
-            _callback = "(function(responseText, statusText, xhr, $form) { " + javascript + "})()";
+            _callback = "(function(responseText, statusText, xhr, $form) { " + javascript + "})";
             return this;
         }
 
@@ -1717,7 +1717,7 @@ namespace BigfootDNN.Helpers
                 options.AddString("formId", _formName);
                 options.Add("isPartialForm", _isPartialForm.ToString().ToLower());
                 options.Add("clearForm", _clearForm.ToString().ToLower());
-                options.Add("validate", _validate.ToString().ToString());
+                options.Add("validate", _validate.ToString().ToLower());
             }
 
             // Add any data that has been selected to post
@@ -1787,8 +1787,8 @@ namespace BigfootDNN.Helpers
                 options.AddString("successMessage", _successMessage);
             }
 
-            // Return the created options object
-            return options.ToString();
+            // Function call
+            return string.Format("bf.ajax('{0}', {1})", JSBuilder.GetString(_url), options.ToString());
         }
 
     }

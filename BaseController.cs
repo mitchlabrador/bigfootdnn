@@ -8,6 +8,8 @@ using DotNetNuke.Entities.Modules;
 
 namespace BigfootDNN
 {
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
 
     /// <summary>
     /// This is the base controller class from which all MVC controller must inherit
@@ -110,13 +112,41 @@ namespace BigfootDNN
         }
 
         /// <summary>
-        /// Retursn a new ActionResult with json data to be returned to the client
+        /// Returns a new ActionResult with json data to be returned to the client
         /// </summary>
         /// <param name="jsondata">JSON formatted string to return to client</param>
         /// <returns>An ActionResult object to be consumed by the route handler</returns>
         public ActionResult JsonResult(string jsondata)
         {
             return new ActionResult(ActionResult.ActionTypeEnum.Json, Route, jsondata);
+        }
+
+        /// <summary>
+        /// Takes in an object (which could be declared anonymously in-line) and serializes it to Json using Json.Net along with
+        /// serializer settings to convert the object to camel case.
+        /// </summary>
+        /// <param name="data">Object to be serialized. Could be an anoymous object created in-line like so: new {HasErro = true, Message = "Some message"}</param>
+        /// <returns></returns>
+        public ActionResult JsonCamelCase(object data)
+        {
+            var jsonSerializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+            var jsonData = JsonConvert.SerializeObject(data, jsonSerializerSettings);
+            return JsonResult(jsonData);
+        }
+
+        /// <summary>
+        /// Takes in an object (which could be declared anonymously in-line) and serializes it to Json using Json.Net leaving the case of the 
+        /// property names as-is.
+        /// </summary>
+        /// <param name="data">Object to be serialized. Could be an anoymous object created in-line like so: new {HasErro = true, Message = "Some message"}</param>
+        /// <returns></returns>
+        public ActionResult Json(object data)
+        {
+            var jsonData = JsonConvert.SerializeObject(data);
+            return JsonResult(jsonData);
         }
 
         /// <summary>

@@ -1165,8 +1165,12 @@ namespace BigfootDNN
 
         public void RenderRazorViewToResponse(string scriptPath, object data = null, string localResourceFile = "", bool isRenderPartial = false)
         {
+            //var razorEngine = new RazorEngine(scriptPath, Route, localResourceFile);
+            //razorEngine.Render(Response.Output, data, isRenderPartial);
             var razorEngine = new RazorEngine(scriptPath, Route, localResourceFile);
-            razorEngine.Render(Response.Output, data, isRenderPartial);
+            var writer = new StringWriter();
+            razorEngine.Render(writer, data, isRenderPartial);
+            Response.Output.Write(HttpUtility.HtmlDecode(writer.ToString()));
         }
                         
         public string RenderRazorViewToString(string scriptPath, object data = null, string localResourceFile = "", bool isRenderPartial = false)
