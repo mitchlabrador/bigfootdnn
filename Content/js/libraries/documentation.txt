@@ -1,0 +1,15 @@
+jquery.validate: http://jqueryvalidation.org/documentation/
+
+jquery.bpopup: http://dinbror.dk/blog/bPopup/
+
+pickadate.js: http://amsul.ca/pickadate.js/
+
+jquery.marcopolo: 
+- https://github.com/jstayton/jquery-marcopolo 
+- https://github.com/jstayton/jquery-marcopolo/wiki/CSS-Starter-Template
+
+chosen: 
+- http://harvesthq.github.io/chosen/
+
+jquery.blockUI:
+- http://jquery.malsup.com/block/
