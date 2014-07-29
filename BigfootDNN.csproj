@@ -112,27 +112,104 @@
     <Compile Include="Validation\ValidatorResult.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\bigfoot.all.css">
+      <DependentUpon>bigfoot.all.css.bundle</DependentUpon>
+    </Content>
+    <Content Include="Content\css\bigfoot.all.min.css">
+      <DependentUpon>bigfoot.all.css</DependentUpon>
+    </Content>
     <Content Include="Content\css\bigfoot.css" />
+    <Content Include="Content\css\pickadate.css" />
+    <Content Include="Content\css\select2.css" />
     <Content Include="Content\images\alert_error.gif" />
     <Content Include="Content\images\alert_notice.gif" />
     <Content Include="Content\images\alert_progress.gif" />
+    <Content Include="Content\images\loading-spinner-grey.gif" />
+    <Content Include="Content\images\select2-spinner.gif" />
+    <Content Include="Content\images\select2.png" />
+    <Content Include="Content\images\select2x2.png" />
+    <Content Include="Content\js\bigfoot.all.js">
+      <DependentUpon>bigfoot.all.js.bundle</DependentUpon>
+    </Content>
+    <Content Include="Content\js\bigfoot.all.min.js">
+      <DependentUpon>bigfoot.all.js</DependentUpon>
+    </Content>
     <Content Include="Content\js\bigfoot.js" />
-    <Content Include="Content\js\libraries\bootbox.js" />
+    <Content Include="Content\js\libraries\documentation.txt" />
     <Content Include="Content\js\libraries\jquery.autocomplete.min.js" />
-    <Content Include="Content\js\libraries\jquery.centerxy-1.0.js" />
-    <Content Include="Content\js\libraries\jquery.form-2.87.js" />
+    <Content Include="Content\js\libraries\jquery.blockUI.js" />
+    <Content Include="Content\js\libraries\jquery.bpopup.js" />
+    <Content Include="Content\js\libraries\jquery.cookie.js" />
+    <Content Include="Content\js\libraries\jquery.form.js" />
     <Content Include="Content\js\libraries\jquery.metadata-2.1.js" />
-    <Content Include="Content\js\libraries\jquery.placeholder-0.4.js" />
-    <Content Include="Content\js\libraries\jquery.tools.overlay-1.2.6.js" />
-    <Content Include="Content\js\libraries\jquery.validate-1.8.1.js" />
-    <Content Include="Content\js\libraries\jquery.validate.additional-methods-1.8.1.js" />
+    <Content Include="Content\js\libraries\jquery.placeholder.js" />
+    <Content Include="Content\js\libraries\jquery.validate-vsdoc.js" />
+    <Content Include="Content\js\libraries\jquery.validate.additional-methods.js" />
+    <Content Include="Content\js\libraries\jquery.validate.js" />
     <Content Include="Content\js\libraries\json2.js" />
+    <Content Include="Content\js\libraries\pickadate\default.css" />
+    <Content Include="Content\js\libraries\pickadate\default.date.css" />
+    <Content Include="Content\js\libraries\pickadate\default.time.css" />
+    <Content Include="Content\js\libraries\pickadate\legacy.js" />
+    <Content Include="Content\js\libraries\pickadate\picker.date.js" />
+    <Content Include="Content\js\libraries\pickadate\picker.js" />
+    <Content Include="Content\js\libraries\pickadate\picker.time.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\ar.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\bg_BG.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\bs_BA.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\ca_ES.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\cs_CZ.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\da_DK.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\de_DE.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\el_GR.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\es_ES.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\et_EE.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\eu_ES.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\fi_FI.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\fr_FR.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\gl_ES.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\he_IL.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\hr_HR.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\hu_HU.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\id_ID.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\is_IS.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\it_IT.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\ja_JP.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\ko_KR.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\ne_NP.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\nl_NL.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\no_NO.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\pl_PL.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\pt_BR.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\pt_PT.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\ro_RO.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\ru_RU.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\sk_SK.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\sl_SI.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\sv_SE.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\th_TH.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\tr_TR.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\uk_UA.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\vi_VN.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\zh_CN.js" />
+    <Content Include="Content\js\libraries\pickadate\translations\zh_TW.js" />
+    <Content Include="Content\js\libraries\select2\select2.js" />
+    <Content Include="Content\js\libraries\tailorfit-1.5.9.js" />
     <Content Include="_References\DNN.06.00.01\DotNetNuke.dll" />
     <Content Include="_References\DNN.06.00.01\DotNetNuke.Instrumentation.dll" />
     <Content Include="_References\DNN.06.00.01\DotNetNuke.Web.dll" />
     <Content Include="_References\DNN.06.00.01\DotNetNuke.WebUtility.dll" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\css\bigfoot.all.css.bundle" />
+    <None Include="Content\js\bigfoot.all.js.bundle" />
+    <None Include="Content\js\bigfoot.all.min.js.map">
+      <DependentUpon>bigfoot.all.min.js</DependentUpon>
+    </None>
+    <None Include="Content\js\libraries\pickadate\pickadate.js-3.5.3.zip" />
+    <None Include="Content\js\libraries\pickadate\translations\FORMATTING.md" />
+    <None Include="Content\js\libraries\pickadate\translations\NAMING.md" />
+    <None Include="Content\js\libraries\select2\select2-3.5.1.zip" />
     <None Include="LICENSE" />
     <None Include="README.md" />
   </ItemGroup>

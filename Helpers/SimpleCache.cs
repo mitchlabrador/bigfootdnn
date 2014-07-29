@@ -8,7 +8,7 @@ namespace BigfootDNN.Helpers
     /// <summary>
     /// This is a global application cache that persists accross requests while the application lives. Please takenote that it is server specific
     /// </summary>
-    public static class SimpleCache
+    public static class MemoryCache
     {
         static Dictionary<string, object> _cache = new Dictionary<string, object>();
 
@@ -130,8 +130,8 @@ namespace BigfootDNN.Helpers
         {
             var cacheKey = "reflectioncache_" + obj.GetType().FullName;
             List<object> fields;
-            if (SimpleCache.Contains(cacheKey))
-                fields = SimpleCache.GetValue(cacheKey) as List<object>;
+            if (Contains(cacheKey))
+                fields = GetValue(cacheKey) as List<object>;
             else
             {
                 fields = new List<object>();
@@ -146,7 +146,7 @@ namespace BigfootDNN.Helpers
 
                 //fields.AddRange(obj.GetType().GetFields());
 
-                SimpleCache.Add(cacheKey, fields);
+                Add(cacheKey, fields);
             }
             return fields;
         }

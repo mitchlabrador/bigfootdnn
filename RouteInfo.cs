@@ -329,7 +329,7 @@ namespace BigfootDNN
 
             // CONTROLLER
             //      Get the type from the cache, if not there add it
-            var objT = SimpleCache.GetValue<Type>(controllerKey);
+            var objT = MemoryCache.GetValue<Type>(controllerKey);
             if (objT == null)
             {
                 // Get the object type
@@ -349,7 +349,7 @@ namespace BigfootDNN
                 }
 
                 // Add it to the cache
-                if (objT != null) SimpleCache.Add(controllerKey, objT);
+                if (objT != null) MemoryCache.Add(controllerKey, objT);
             }
             //      Ensure the controller was found
             if (objT == null) throw new ApplicationException(string.Format(App.MVCStrings.ControllerNotFound, typename, App.Info.ModuleAssemblyName));
@@ -358,14 +358,14 @@ namespace BigfootDNN
             objController.Route = this;
             // ACTION
             //      Get the method from the cache. If not there then get it and add it
-            var cachedMethod = SimpleCache.GetValue<MethodInfo>(actionKey);
+            var cachedMethod = MemoryCache.GetValue<MethodInfo>(actionKey);
             if (cachedMethod == null)
             {
                 foreach (var m in objT.GetMethods())
                 {
                     if (m.Name.ToLower() == Action.ToLower())
                     {
-                        SimpleCache.Add(actionKey, m);
+                        MemoryCache.Add(actionKey, m);
                         cachedMethod = m;
                         break;
                     }

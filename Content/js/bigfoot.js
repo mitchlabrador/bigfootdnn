@@ -12,76 +12,83 @@ var bigfootMVC = {
     // CONSTANTS
     //******************************************************
     constants: {
-        flashId: "bigfootMVC_flash",
         systemErrorId: "bigfootMVC_SystemError",
         systemErrorIFrameId: "bigfootMVC_SystemError_Iframe",
-        overlay: {
-            effect: "default", exposeColor: "#222", defaultCSSClass: "simple_overlay",
-
-            main: "bigfootMVC_mainOverlay", mainContent: "bigfootMVC_mainOverlayContent", mainMask: "bigfootMVC_mainOverlayMask",
-            mainZindex: 10300, mainTrigger: "bigfootMVC_mainOverlayTrigger",
-
-            top: "bigfootMVC_topOverlay", topContent: "bigfootMVC_topOverlayContent", topMask: "bigfootMVC_topOverlayMask",
-            topZindex: 10400, topTrigger: "bigfootMVC_topOverlayTrigger",
-
-            message: "bigfootMVC_messageOverlay", messageContent: "bigfootMVC_messageOverlayContent", messageMask: "bigfootMVC_messageOverlayMask",
-            messageZindex: 10500, messageTrigger: "bigfootMVC_messageOverlayTrigger"
-        }
+        bigfootDnnAlertId: "bigfootDnnAlert"
     },
 
 
     //******************************************************
-    // CONNECT AJAX
+    // INIT | CONNECT AJAX
     //******************************************************
     //#region ConnectAjax
     errorHappened: false,
 
-    connectAjax: function () {
-        // Clear the flash element
-        if (jQuery("#" + bigfootMVC.constants.flashId).length == 0) {
-            jQuery("#" + bigfootMVC.constants.flashId).remove();
+    init: function () {
+        
+        // Create the alert overlay box
+        if (bf.exists(bf.constants.bigfootDnnAlertId) == false) {
+            var alertHtml = "<div id='" + bf.constants.bigfootDnnAlertId + "' style='display:none;'>" +
+                            "   <div class='alertTitle'></div>" +
+                            "   <div class='alertContent'></div>" +
+                            "   <div class='alertFooter'>" +
+                            "       <a href='javascript:bf.hideAlert();' class='okButton'>Ok</a>" +
+                            "   </div>" +
+                            "</div>";
+            var $container = $("form:eq(0)");
+            if ($container.length == 0) {
+                $container = $("body");
+            }
+            $container.append(alertHtml);
         }
 
-        // Create html element elements
-        var html = "<div id='" + bigfootMVC.constants.flashId + "'></div>";
-        html += "<div id='" + bigfootMVC.constants.systemErrorId + "'>";
-        html += "<a href='javascript:bigfootMVC.clearGlobalMessage();void(0);' class='close'>CLOSE</a>";
-        html += "<iframe id='" + bigfootMVC.constants.systemErrorIFrameId + "'></iframe>";
-        html += "</div>";
-        jQuery(html).appendTo("body");
+        // Create the system error overlay box
+        if (bf.exists(bf.constants.systemErrorId) == false)
+        {
+            var html = "<div id='" + bf.constants.systemErrorId + "'>";
+            html += "<a href='javascript:bf.hideError();void(0);' class='close'>CLOSE</a>";
+            html += "<iframe id='" + bf.constants.systemErrorIFrameId + "'></iframe>";
+            html += "</div>";
+            jQuery(html).appendTo("body");
+        }
 
-        // Clear the flash
-        bigfootMVC.clearGlobalMessage();
+        // Wire up the escape event to make sure we unblock on the UI when pressed
+        $(document).on("keyup", function (e) {
+            if (e.which === 27) { // escape key
+                bf.log("unblocking...");
+                $.unblockUI();
+            }
+        });
+    },
 
-        // Get the flash element
-        var flash = jQuery("#" + bigfootMVC.constants.flashId);
-
+    // Connect AJAX indicators and error handler when ajax is happening
+    connectAjax: function () {        
+                
         // Set a request header to flag every ajax request
-        jQuery(document).ajaxSend(function (ev, req, options) {
+        $(document).ajaxSend(function (ev, req, options) {
             req.setRequestHeader("ajaxRequest", "true");
         });
-        //flash.ajaxSend(function (ev, req, options) {
-        //    req.setRequestHeader("ajaxRequest", "true");
-        //});
 
         // Mark the page as updating on every ajax call 
-        jQuery(document).ajaxStart(function () {
-            bigfootMVC.showGlobalLoading("Updating");
+        $(document).ajaxStart(function () {
+            bf.blockUI();
         });
 
         // ERROR HANDLER. Determine if the error is due to security and redirect to the login page.
-        jQuery(document).ajaxError(function (event, request, settings) {
-            bigfootMVC.log("AJAX ERROR: " + request.status + " | " + request.responseText);
-            bigfootMVC.errorHappened = true;
+        $(document).ajaxError(function (event, request, settings) {
+            bf.log("AJAX ERROR: " + request.status + " | " + request.responseText);
+            bf.errorHappened = true;
             if (request.status == 402) {
                 window.location = loginurl;
             }
-            bigfootMVC.showGlobalError(request.status + ': ' + request.responseText); // request.getResponseHeader("ActionErrorMessage")); //showGlobalError(request.status + ': ' + request.statusText);
+            bf.unblockUI();
+            bf.showError(request.status + ': ' + request.responseText); // request.getResponseHeader("ActionErrorMessage")); //showGlobalError(request.status + ': ' + request.statusText);
         });
 
         // Hide the Loading message on successful completion
-        jQuery(document).ajaxSuccess(function (request, settings) {
-            bigfootMVC.clearGlobalMessage();
+        $(document).ajaxSuccess(function (request, settings) {
+            bf.hideError();
+            bf.unblockUI();
         });
     },
 
@@ -89,48 +96,85 @@ var bigfootMVC = {
 
 
     //******************************************************
-    // FLASH AND SYSTEM ERROR
+    // BLOCK AND SYSTEM ERROR
     //******************************************************
-    //#region Flash And System Error
+    //#region .blockUI | .unblockUI | .showError | .hideError
 
-    clearGlobalMessage: function () {
-        jQuery("#" + bigfootMVC.constants.systemErrorIFrameId).attr("src", "about:blank");
-        jQuery("#" + bigfootMVC.constants.systemErrorId).hide();
-
-        return jQuery("#" + bigfootMVC.constants.flashId).removeClass("flash_notice flash_alert flash_loading").html("").hide();
+    hideError: function () {
+        jQuery("#" + bf.constants.systemErrorIFrameId).attr("src", "about:blank");
+        jQuery("#" + bf.constants.systemErrorId).bPopup().close();
     },
 
-    showGlobalError: function (msg) {
+    showError: function (msg) {
         // Inject the html into the iframe
-        var iframe = document.getElementById(bigfootMVC.constants.systemErrorIFrameId);
+        var iframe = document.getElementById(bf.constants.systemErrorIFrameId);
         var doc = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
         doc.clear();
         doc.open();
         doc.writeln(msg);
         doc.close();
-
         // show the error
-        jQuery("#" + bigfootMVC.constants.systemErrorId).show().centerXY();
+        jQuery("#" + bf.constants.systemErrorId).bPopup();
+    },
+    
+    blockUI: function (options) {
+        var options = $.extend(true, {}, options);
+        var html = '<div class="loading-message"><span class="spinner"></span><span>&nbsp;&nbsp;' + (options.message ? options.message : 'LOADING...') + '</span></div>';
+       
+        if (options.target) { // element blocking
+            var el = $(options.target);
+            if (el.height() <= ($(window).height())) {
+                options.centerY = true;
+            }
+            el.block({
+                message: html,
+                baseZ: options.zIndex ? options.zIndex : 1000,
+                centerY: options.centerY != undefined ? options.centerY : false,
+                css: {
+                    top: '10%',
+                    border: '0',
+                    padding: '0',
+                    backgroundColor: 'none'
+                },
+                overlayCSS: {
+                    backgroundColor: options.overlayColor ? options.overlayColor : '#000',
+                    opacity: 0.1,
+                    cursor: 'wait'
+                }
+            });
+        } else { // page blocking
+            $.blockUI({
+                message: html,
+                baseZ: options.zIndex ? options.zIndex : 1000,
+                css: {
+                    border: '0',
+                    padding: '0',
+                    backgroundColor: 'none'
+                },
+                overlayCSS: {
+                    backgroundColor: options.overlayColor ? options.overlayColor : '#000',
+                    opacity: 0.1,
+                    cursor: 'wait'
+                }
+            });
+        }
+
+        
     },
 
-    showGlobalNotice: function (msg) {
-        var f = bigfootMVC.clearGlobalMessage();
-        f.addClass('flash_notice');
-        //f.addClass("flash_notice").html(msg).show();
-        bigfootMVC.showGlobalMessage(f, msg);
+    unblockUI: function (target) {
+        if (target) {
+            $(target).unblock({
+                onUnblock: function () {
+                    $(target).css('position', '');
+                    $(target).css('zoom', '');
+                }
+            });
+        } else {
+            $.unblockUI();
+        }
     },
 
-    showGlobalLoading: function (msg) {
-        var f = bigfootMVC.clearGlobalMessage();
-        f.addClass("flash_loading");
-        bigfootMVC.showGlobalMessage(f, msg);
-    },
-
-    showGlobalMessage: function (jobj, msg) {
-        jobj.animate({ top: jQuery(window).scrollTop() + "px" }, { queue: false, duration: 350 });
-        jobj.append(msg).show();
-        var w = jobj.width();
-    },
 
     //#endregion
 
@@ -138,262 +182,73 @@ var bigfootMVC = {
     //******************************************************
     // OVERLAYS
     //******************************************************
-    //#region OVERLAYS
+    
+    //#region Overlays
 
-    // Creates the overlay information with the proper ids etc.
-    getOverlayInfo: function(rootId, zindex){ 
-        var rootId = "bfmvc_" + rootId + "Overlay";
-        return {
-            id: rootId,
-            contentId: rootId + "Content",
-            maskId: rootId + "Mask",
-            zIndex: zindex ? zindex : 200,
-            triggerId: rootId + "Trigger",
-            clear: function(callback){
-                var selector = "#" + this.triggerId;
-                if ($(selector).length > 0) $(selector).overlay().close();
-                if (callback && (typeof callback) == 'function') { setTimeout(callback, 100); }                
-            },
-            load: function(html /*, options*/){                
-                var options = {
-                    id: this.id,
-                    contentId: this.contentId,
-                    maskId: this.maskId,
-                    zIndex: this.zIndex,
-                    triggerId: this.triggerId,
-                    oneInstance: false,
-                    closeOnClick: false
-                };
-                $.extend(options, arguments[1]);
-                bf.loadOverlay(html, options);
-            }
-        };
-    },
+    showAlert: function (title, message, _options) {
 
-    mainOverlay: function(){ return bf.getOverlayInfo("main", 200)},
-    topOverlay: function(){return bf.getOverlayInfo("top", 250);},
-    messageOverlay: function(){return bf.getOverlayInfo("message", 300);},
-
-    // Clears all overlays in the system
-    clearAllOverlays: function (callback) {
-        clearTopOverlay(function () {
-            clearMessageOverlay(function () {
-                clearOverlay(function () {
-                    if (callback && (typeof callback) == 'function') { callback(); }
-                });
-            });
-        });
-    },
-
-    clearOverlay: function (callback) {
-        var selector = "#" + bigfootMVC.constants.overlay.mainTrigger;
-        if ($(selector).length > 0) $(selector).overlay().close();
-        if (callback && (typeof callback) == 'function') { setTimeout(callback, 100); }
-    },
-
-    clearTopOverlay: function (callback) {
-        var selector = "#" + bigfootMVC.constants.overlay.topTrigger;
-        if ($(selector).length > 0) $(selector).overlay().close();
-        if (callback && (typeof callback) == 'function') { setTimeout(callback, 100); }
-    },
-
-    clearMessageOverlay: function (callback) {
-        var selector = "#" + bigfootMVC.constants.overlay.messageTrigger;
-        if ($(selector).length > 0) $(selector).overlay().close();
-        if (callback && (typeof callback) == 'function') { setTimeout(callback, 100); }
-    },
-
-    /*Load an overlay on top of the message layer*/
-    loadMessageOverlay: function (html /*, options*/) {
+        // Create the default options
         var options = {
-            id: bigfootMVC.constants.overlay.message,
-            contentId: bigfootMVC.constants.overlay.messageContent,
-            maskId: bigfootMVC.constants.overlay.messageMask,
-            zIndex: bigfootMVC.constants.overlay.messageZindex,
-            triggerId: bigfootMVC.constants.overlay.messageTrigger,
-            oneInstance: false,
-            closeOnClick: false
+            modal: true,
+            modalClose: false,
+            escClose: false,
+            modalColor: "whitesmoke"
         };
-        $.extend(options, arguments[1]);
-        bigfootMVC.loadOverlay(html, options);
+
+        // Create the alert box and append the titla and content
+        var $alert = bf.id(bf.constants.bigfootDnnAlertId);
+        $alert.find(".alertTitle").html(title);
+        $alert.find(".alertContent").html(message);
+
+        // Merge the caller parameters options parameter
+        if (_options) { $.extend(options, _options); }
+
+        // shhow the alert with options
+        $alert.bPopup(options);
+
     },
 
-    /*Load an overlay on top of the main content for the course layer*/
-    loadTopOverlay: function (html /*, options*/) {
-        var options = {
-            id: bigfootMVC.constants.overlay.top,
-            contentId: bigfootMVC.constants.overlay.topContent,
-            maskId: bigfootMVC.constants.overlay.topMask,
-            zIndex: bigfootMVC.constants.overlay.topZindex,
-            triggerId: bigfootMVC.constants.overlay.topTrigger,
-            oneInstance: false,
-            closeOnClick: false
-        };
-        $.extend(options, arguments[1]);
-        bigfootMVC.loadOverlay(html, options);
+    hideAlert: function(){
+        var $alert = bf.id(bf.constants.bigfootDnnAlertId);        
+        $alert.bPopup().close();
     },
 
-    // Load the overlay with some data
-    //  Options:
-    //      container = container where the overlay will be placed || default = mainContent
-    //      id = id to use for the overlay || default = overlay
-    //      expose = background effect || default = { color: '#222', loadSpeed: 200, opacity: 0.8 }
-    //      effect = custom effect plugin
-    //      cssClass = css class to apply to the overlay element || default = bigfootMVC.constants.overlay.defaultCSSClass
-    //      closeClass = css class to apply to the overlay close element
-    //      zIndex = zindex for the overlay || default = bigfootMVC.constants.overlay.mainZindex
-    //      showExpose = true | false determines weather to use an expose || default = true
-    //      triggerTop = Top position of the trigger || default = center
-    //      triggerLeft = Left position of the trigger || default = center
-    //      onLoad = function to be called after the load is complete
-    //		onClose = callback function that gets called when the overlay unloads
-    //      appendToForm = determines whether to append the overlay to the first form found in the page
-    loadOverlay: function (html /*, options*/) {
+    popupHtml: "<div class='b-overlay' style='display:none;'>" +
+               "   <a href='javascript:void(0);' class='closeOverlay'>X</a>" +
+               "   <div class='overlayContent'></div>" +
+               "   </div>" +
+               "</div>",
 
+    loadUrlInOverlay: function (url, _options)
+    {
+        $.get(url, function (data) { bf.loadContentInOverlay(data, _options); });
+    },
+
+    loadContentInOverlay: function (content, _options)
+    {
+        // Create the default options
         var options = {
-            id: bigfootMVC.constants.overlay.main,
-            contentId: bigfootMVC.constants.overlay.mainContent,
-            maskId: bigfootMVC.constants.overlay.mainMask,
-            triggerId: bigfootMVC.constants.overlay.mainTrigger,
-            cssClass: bigfootMVC.constants.overlay.defaultCSSClass,
-            zIndex: bigfootMVC.constants.overlay.mainZindex,
-            expose: { color: bigfootMVC.constants.overlay.exposeColor, loadSpeed: 200, opacity: 0.8, closeOnClick: true },
-            showExpose: true,
-            oneInstance: false,
-            effect: bigfootMVC.constants.overlay.effect,
-            appendToForm: false,
-            fixed: false
+            closeClass: "closeOverlay",
+            appendTo: "form"
         };
 
         // Merge the caller parameters options parameter
-        $.extend(options, arguments[1]);
+        if (_options) { $.extend(options, _options); }
 
-        // Set the zIndex for the exponse overlay
-        options.expose.zIndex = options.zIndex - 1;
+        // Create the overlay contianer
+        var $overlay = $(bf.popupHtml);
 
-        // Set the maskId for the expose
-        options.expose.maskId = options.maskId;
+        // Set the content
+        $overlay.find(".overlayContent").html(content);
 
-        // After the exponse loads: Add mask as a class name
-        options.expose.onLoad = function () { $(maskSelector).addClass("mask"); }
+        // set the width and height
+        if (options.width) { $overlay.css("width", options.width); }
+        if (options.height) { $overlay.css("height", options.height); }
 
-        // Get the jquery selectors
-        var idSelector = "#" + options.id;
-        var contentIdSelector = "#" + options.contentId;
-        var maskSelector = "#" + options.expose.maskId;
-        var triggerSelector = "#" + options.triggerId;
-
-        // Remove the expose effect if requested
-        if (!options.showExpose) options.expose = null;
-
-        // Remove overlay / mask / trigger
-        if ($(idSelector).length > 0) $(idSelector).remove();
-        if ($(maskSelector).length > 0) $(maskSelector).remove();
-        if ($(triggerSelector).length > 0) $(triggerSelector).remove();
-
-        // Create the overlay if it is not found
-        var containerSelector = options.appendToForm == true ? "form:eq(0)" : "body";
-        $(containerSelector).append("<div id='" + options.id + "' class='" + options.cssClass + " hide overlay'><div id='" + options.contentId + "'></div></div>");
-
-        // Set the z-index
-        $(idSelector).css("zIndex", options.zIndex);
-
-        // inject the content
-        $(contentIdSelector).html(html);
-
-        // Create the trigger element
-        var trigger = $("<a id='" + options.triggerId + "' rel='" + idSelector + "' class='trigger' />").appendTo("body");
-        //  Position it
-        if (options.triggerTop && options.triggerLeft)
-            trigger.css({ position: "absolute", top: options.triggerTop, left: options.triggerLeft });
-        else
-            trigger.centerXY();
-
-        //  Open the overlay
-        trigger.overlay(options).click();
-
-        // Set The class of the close button
-        var closeSelector = idSelector + " .close";
-        if (options.closeClass) $(closeSelector).removeClass("close").addClass(options.closeClass);
-
+        // Load it
+        return $overlay.bPopup(options).reposition();
     },
 
-    //#endregion
-
-
-    S4: function() {
-        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-    },
-
-    generateGuid: function() {
-        return (bigfootMVC.S4() + bigfootMVC.S4() + "-" + bigfootMVC.S4() + "-" + bigfootMVC.S4() + "-" + bigfootMVC.S4() + "-" + bigfootMVC.S4() + bigfootMVC.S4() + bigfootMVC.S4());
-    },
-
-    //#region Bootstrap Modal
-
-    //title: string | default: none | modal title 
-    //backdrop: boolean or the string 'static' | default: static | Includes a modal-backdrop element. Alternatively, specify static for a backdrop which doesn't close the modal on click.
-    //keyboard:	boolean| default: true | Closes the modal when escape key is pressed
-    //show:	boolean	| default: true | Shows the modal when initialized
-    //footer:	boolean	| default: false | Shows the footer 
-    //size: small, large | default: undefined 
-    //onClose: on close callback
-    showModal: function(data, _options) {
-        
-        var modalId = bigfootMVC.generateGuid();
-        var options = {
-            backdrop: 'static',
-            keyboard: true,
-            show: true,
-            footer: false,
-            title: ''
-        };
-        
-        // Merge the caller parameters options parameter
-        if (_options) {
-            $.extend(options, _options);
-        }
-        var size = "";
-        if(options.size === 'small') {
-            size = "modal-sm";
-        }
-        else if(options.size === 'large') {
-            size = "modal-lg"; 
-        }
-
-        var containerSelector = options.appendToForm == true ? "form:eq(0)" : "body";        
-        var modalDiv ='<div id="' + modalId +'" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="' + options.title + '" aria-hidden="true">';
-        modalDiv += '   <div class="modal-dialog ' + size + '">';
-        modalDiv += '       <div class="modal-content">';
-        
-        modalDiv += '           <div class="modal-header">';
-        modalDiv += '               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>';
-        if (options.title && options.title.trim().length > 0) {
-            modalDiv += '               <h4 class="modal-title">' + options.title + '</h4>';
-        }
-        modalDiv += '           </div>';
-        modalDiv += '           <div class="modal-body">';
-        modalDiv += '                   ' + data ;      
-        modalDiv += '           </div>';
-
-        if (options.footer === true) {
-            modalDiv += '           <div class="modal-footer">';
-            modalDiv += '               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
-            modalDiv += '           </div>';
-        }
-
-        modalDiv += '       </div>';
-        modalDiv += '   </div>';
-        modalDiv += '</div>';
-
-        $(containerSelector).append(modalDiv);        
-        $("#" + modalId).modal(options);
-
-        $("#" + modalId).on("hidden.bs.modal", function (e) {            
-            $('#' + modalId).remove();
-            if (options.onClose && (typeof options.onClose) == 'function') { setTimeout(options.onClose, 100); }
-        })
-    },
     //#endregion
 
 
@@ -401,6 +256,11 @@ var bigfootMVC = {
     // HELPER FUNCTIONS
     //******************************************************
     //#region Helper Functions
+
+    generateGuid: function () {
+        var S4 = function () { return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1); }
+        return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+    },
 
     log: function (msg) {
         try { console.log(msg); } catch (e) { }
@@ -419,9 +279,9 @@ var bigfootMVC = {
         var formData = jQuery("form:eq(0)").formToArray();
 
         // Remove ASP.NET hidden fields
-        bigfootMVC.removePostField(formData, '__VIEWSTATE');
-        bigfootMVC.removePostField(formData, '__EVENTTARGET');
-        bigfootMVC.removePostField(formData, '__EVENTARGUMENT');
+        bf.removePostField(formData, '__VIEWSTATE');
+        bf.removePostField(formData, '__EVENTTARGET');
+        bf.removePostField(formData, '__EVENTARGUMENT');
 
         return formData;
     },
@@ -546,6 +406,17 @@ var bigfootMVC = {
             selString += selector;
         }
         $(selString).change(callback);
+    },
+
+    loadUrl: function (url, elementId, toggle) {
+
+        if (toggle && bf.isVisible(elementId))
+        {
+            bf.id(elementId).html("").hide();
+            return;
+        }
+        bf.id(elementId).load(url).show();
+
     },
 
     //#endregion
@@ -834,24 +705,10 @@ var bigfootMVC = {
            $form.trigger("submit");
         }
 
-    },
+    }
 
     //#endregion
-
-
-    //******************************************************
-    // FORM FUNCTIONS
-    //******************************************************
-    loadUrl: function (url, elementId, toggle) {
-
-        if (toggle && bf.isVisible(elementId))
-        {
-            bf.id(elementId).html("").hide();
-            return;
-        }
-        bf.id(elementId).load(url).show();
-
-    }
+    
     
 };
 
@@ -1054,7 +911,10 @@ var CheckIf = {
 //#region "val function: Returns the value of any input element as well as spans and divs"
 function val(elemId, setValue) {
     // Try to get a field by it's id
-    var $elem = bfmvc.id(elemId);
+    var $elem = bf.id(elemId);
+
+    // Check if found
+    if ($elem.length == 0) return "";
 
     // Try to get a radio list if not found
     if ($elem.length == 0)  $elem = $('input:radio[name=' + elemId + ']');
@@ -1064,9 +924,6 @@ function val(elemId, setValue) {
     
     // Determine if it is a checkbox
     var isCheckbox = $elem.is(":checkbox");
-    
-    // Check if found
-    if ($elem.length == 0) return "";
 
     if (isRadio) {
         //$elem.removeAttr("checked");
@@ -1094,14 +951,15 @@ function val(elemId, setValue) {
 //#endregion
 
 
-// Alias bigfootMVC as bfmvc and bf
-var bfmvc = bigfootMVC;
+// Alias bigfootMVC as bf
 var bf = bigfootMVC;
 
 // Connect Ajax once it has been loaded and jquery has been loaded
 jQuery(function () {
 
-    if (!window.DoNotConnectBigfootMVCAjax){
+    bf.init();
+
+    if (!window.DoNotConnectBigfootAjax) {
         bf.connectAjax();
     }
 

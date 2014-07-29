@@ -763,7 +763,7 @@ namespace BigfootDNN.Helpers
 
             // Hydrate a complex type it
             //  Get the fields for the type
-            List<object> fields = SimpleCache.GetObjectFields(objectToFill);
+            List<object> fields = MemoryCache.GetObjectFields(objectToFill);
             foreach (var field in fields)
             {
                 // Get the fieldname

@@ -67,11 +67,11 @@ namespace BigfootDNN
             get
             {
                 var key = GetCacheKeyForHost("ProviderConfiguration");
-                if (!SimpleCache.Contains(key))
+                if (!MemoryCache.Contains(key))
                 {
-                    SimpleCache.Add(key, new DataProvider(Info.ModuleDBObjectQualifier));
+                    MemoryCache.Add(key, new DataProvider(Info.ModuleDBObjectQualifier));
                 }
-                return SimpleCache.GetValue<DataProvider>(key);
+                return MemoryCache.GetValue<DataProvider>(key);
             }
         }
 
@@ -109,7 +109,7 @@ namespace BigfootDNN
             get
             {
                 var format = PortalPath.EndsWith("/") ? "{0}{1}/" : "{0}/{1}/";
-                return string.Format(format, PortalPath, Info.ModuleFolderName);
+                return string.Format(format, PortalPath, Info.ModuleShortName);
             }
         }
 
@@ -1498,12 +1498,19 @@ namespace BigfootDNN
         }
 
         /// <summary>
+        /// Sets the cache object with the key specified
+        /// </summary>
+        public void AddToCache(string key, object obj)
+        {
+            SetCache(key, obj);
+        }
+
+        /// <summary>
         /// Sets an item in the DNN cache. Replaces if already found
         /// </summary>
-        /// <typeparam name="T">The type of item</typeparam>
         /// <param name="toSet">The object to set</param>
         /// <param name="key">The key to use</param>
-        public static void SetItemInDnnCache<T>(T toSet, string key)
+        public void SetCache(string key, object toSet)
         {
             DataCache.SetCache(key, toSet);
         }
@@ -1511,15 +1518,28 @@ namespace BigfootDNN
         /// <summary>
         /// Retreives an item from the DnnCache for the key specified
         /// </summary>
-        public static T GetItemFromDnnCache<T>(string key)
+        public object GetFromCache(string key)
         {
-            return (T)DataCache.GetCache(key);
+            return DataCache.GetCache(key);
+        }
+
+        /// <summary>
+        /// Retreives an item from the DnnCache for the key specified and coverts it to the specified type
+        /// </summary>
+        public T GetFromCache<T>(string key)
+        {
+            var defaultValue = default(T);
+            var value = DataCache.GetCache(key);
+            if (value == null)
+                return defaultValue;
+            else
+                return (T)value;
         }
 
         /// <summary>
         /// Determines whether a certain item exists in the DnnCache
         /// </summary>
-        public static bool ItemExistsInDnnCache(string key)
+        public bool ExistsInCache(string key)
         {
             return DataCache.GetCache(key) != null;
         }
