@@ -159,7 +159,7 @@ namespace BigfootDNN.Helpers
                                                                     .Add("viaAjax", true)
                                                                     .Add("validate", validate)
                                                                     .AddString("ajaxPostUrl", postUrl)
-                                                                    .AddString("updatePanel", updatePanel)
+                                                                    .AddString("updatePanel", JQHelper.GetElementID(updatePanel))
                                                                     .Add("ajaxOptions", ajaxFormSubmitOptions)
                                                                     .ToString());
             return script;

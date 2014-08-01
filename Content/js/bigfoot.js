@@ -70,7 +70,7 @@ var bigfootMVC = {
         });
 
         // Mark the page as updating on every ajax call 
-        $(document).ajaxStart(function () {
+        $(document).ajaxStart(function () {            
             bf.blockUI();
         });
 
@@ -86,7 +86,7 @@ var bigfootMVC = {
         });
 
         // Hide the Loading message on successful completion
-        $(document).ajaxSuccess(function (request, settings) {
+        $(document).ajaxSuccess(function (request, settings) {            
             bf.hideError();
             bf.unblockUI();
         });
@@ -102,7 +102,11 @@ var bigfootMVC = {
 
     hideError: function () {
         jQuery("#" + bf.constants.systemErrorIFrameId).attr("src", "about:blank");
-        jQuery("#" + bf.constants.systemErrorId).bPopup().close();
+        
+        //jQuery("#" + bf.constants.systemErrorId).bPopup().close();
+        if (jQuery("#" + bf.constants.systemErrorId).length > 0) {
+            jQuery("#" + bf.constants.systemErrorId).remove();
+        }
     },
 
     showError: function (msg) {
@@ -221,7 +225,7 @@ var bigfootMVC = {
 
     loadUrlInOverlay: function (url, _options)
     {
-        $.get(url, function (data) { bf.loadContentInOverlay(data, _options); });
+        $.get(url, function (data) { return bf.loadContentInOverlay(data, _options); });
     },
 
     loadContentInOverlay: function (content, _options)
@@ -229,7 +233,10 @@ var bigfootMVC = {
         // Create the default options
         var options = {
             closeClass: "closeOverlay",
-            appendTo: "form"
+            appendTo: "form",
+            modal: true,
+            modalClose: false,
+            transition: 'slideDown'
         };
 
         // Merge the caller parameters options parameter
@@ -244,6 +251,12 @@ var bigfootMVC = {
         // set the width and height
         if (options.width) { $overlay.css("width", options.width); }
         if (options.height) { $overlay.css("height", options.height); }
+
+        // Remove overlay element on close
+        options.onClose = function () {
+            $overlay.remove();
+            if (_options.onClose && typeof _options.onClose == 'function') { _options.onClose(); }
+        }
 
         // Load it
         return $overlay.bPopup(options).reposition();

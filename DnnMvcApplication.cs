@@ -1553,6 +1553,136 @@ namespace BigfootDNN
 
         public IFileManager Files { get { return FileManager.Instance; } }
 
+        /// <summary>
+        /// **NEVER CALL THIS FUNCTION INSIDE A LOOP** Retreives the url path to a particular file.
+        /// </summary>
+        /// <param name="fileId">The ID file for which to retreive the path</param>
+        /// <returns>The url path to the file</returns>
+        public string GetFileUrl(int fileId)
+        {
+            var file = Files.GetFile(fileId);
+            return Files.GetUrl(file);
+        }
+
+        /// <summary>
+        /// Saves a file
+        /// </summary>
+        /// <param name="file">The uploaded file</param>
+        /// <param name="overwriteFileName">If overriding a file, then file name to override. When not specified a uniqe file name is created</param>
+        /// <param name="folderPath">The path where to save the file</param>
+        /// <param name="includeBaseFolder">Determines whether the folder path is under the module base folder</param>
+        /// <returns>The newly created file object</returns>
+        public IFileInfo SaveFile(HttpPostedFileBase file, string overwriteFileName = "", string folderPath = "", bool includeBaseFolder = true)
+        {
+            var folder = GetFolder(folderPath, includeBaseFolder);
+
+            // Get the file Name to use
+            var fileName = !overwriteFileName.IsNullOrEmpty() ? overwriteFileName 
+                                                              : GetUniqueFileName(file.FileName, folderPath);
+            
+            // Add the file
+            var newFile = Files.AddFile(folder, fileName, file.InputStream, true, false, file.ContentType);
+
+            // Return the newly created file
+            return newFile;
+        }
+
+        /// <summary>
+        /// Retreives the folder for a particular path. Creates if not found. 
+        /// If no parameters are passed it returns the root data folder for the module.
+        /// </summary>
+        /// <param name="folderPath">The path to the folder</param>
+        /// <param name="createIfNotFound">Create the folder if not found</param>
+        /// <param name="includeBaseFolder">The folderPath is within the module's base path. Always recommended to be left as such</param>
+        /// <returns>The folder object for the provivded folderPath</returns>
+        public IFolderInfo GetFolder(string folderPath = "", bool includeBaseFolder = true, bool createIfNotFound = true)
+        {
+            // The folder to return
+            IFolderInfo folder = null;
+
+            // Normalize the folder path
+            if (folderPath.IsNullOrEmpty() || folderPath == "/") folderPath = "";
+            
+            // Strip out the initial "/" slash if found
+            if (folderPath.StartsWith("/")) folderPath = folderPath.Substring(1);
+            
+            // Include base folder if requested
+            if (includeBaseFolder && (folderPath.IsNullOrEmpty() || !folderPath.StartsWith(Info.ModuleShortName)))
+            {
+                folderPath = folderPath.IsNullOrEmpty() ? Info.ModuleShortName 
+                                                        : Info.ModuleShortName + "/" + folderPath;
+            }
+
+            // Get it if it exists otherwise create it when requested
+            if (Folders.FolderExists(Route.PortalId, folderPath) == false)
+            {
+                folder = Folders.AddFolder(Route.PortalId, folderPath);
+            }
+            else if (createIfNotFound)
+            {
+                folder = Folders.GetFolder(Route.PortalId, folderPath);
+            }
+
+            // Return the newly created folder
+            return folder;
+        }
+
+        /// <summary>
+        /// Gets a unique file name for a specific folder location
+        /// </summary>
+        /// <param name="fileName">The full name of the file to save</param>
+        /// <param name="subPath">The folder path under the module's base path</param>
+        /// <returns>A unique file name for the subPath specified</returns>
+        public string GetUniqueFileName(string fileName, string subPath)
+        {
+            // Get the folder where to save the file
+            var folder = GetFolder(subPath);
+            return GetUniqueFileName(fileName, folder);
+        }
+
+        /// <summary>
+        /// Gets a unique file name for a specific folder location
+        /// </summary>
+        /// <param name="fileName">The full name of the file to save</param>
+        /// <param name="subPath">The folder path under the module's base path</param>
+        /// <returns>A unique file name for the subPath specified</returns>
+        public string GetUniqueFileName(string fileName, IFolderInfo folder)
+        {
+            // Clean the file name
+            string name = Path.GetFileNameWithoutExtension(fileName);
+            string ext = Path.GetExtension(fileName);
+
+            // Add the dot to the ext
+            if (string.IsNullOrEmpty(ext) == false && ext.StartsWith(".") == false)
+            {
+                ext = "." + ext;
+            }
+            else if (string.IsNullOrEmpty(ext))
+            {
+                ext = "";
+            }
+
+            // Clean up the file name
+            foreach (var c_loopVariable in Path.GetInvalidFileNameChars())
+            {
+                var c = c_loopVariable;
+                name = name.Replace(c, '_');
+            }
+
+            // Get a unique filename
+            int nameCount = 1;
+            var uname = name;
+            while (Files.FileExists(folder, uname + ext))
+            {
+                uname = name + nameCount.ToString();
+                nameCount += 1;
+            }
+
+            // Return the full file name
+            return uname + ext;
+        }
+
+
         #endregion
 
     }
