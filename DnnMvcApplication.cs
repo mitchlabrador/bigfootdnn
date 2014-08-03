@@ -26,6 +26,7 @@ using DotNetNuke.Instrumentation;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Services.FileSystem;
 using DotNetNuke.Security;
+using System.Linq;
 
 namespace BigfootDNN
 {
@@ -1682,6 +1683,138 @@ namespace BigfootDNN
             return uname + ext;
         }
 
+
+        #endregion
+
+
+        #region GetClientLibaryRegistry | RegisterClientLibrary | GetClientLibrariesHtml
+
+        /// <summary>
+        /// Retreives the Client Libary registry. This is the list of Client libraries (CSS and JS) that needs to be rendered with the page
+        /// </summary>
+        /// <returns>A list of client libraries</returns>
+        public List<ClientLibrary> GetClientLibaryRegistry()
+        {
+            var key = "BFDNNClientLibraries";
+            if (!ContextHelper.HasData(key))
+            {
+                ContextHelper.SetData(key, new List<ClientLibrary>());
+            }
+            return ContextHelper.GetData<List<ClientLibrary>>(key);
+        }
+
+        /// <summary>
+        /// Registers a new javascript library to be rendered. If the client library has been registered before then it is udpated with the new values
+        /// otherwise it is added
+        /// </summary>
+        /// <param name="libraryKey">This uniquely identifies the library. Two libraries with the same key are considered the same</param>
+        /// <param name="releaseSource">The source to use when rendering in release mode</param>
+        /// <param name="debugSource">The source to use when rendering in debug mode</param>
+        /// <param name="order">The order in which to render. By default this happens in the order they were added</param>
+        /// <param name="location">Where to register the libary in the page head or at the bottom</param>
+        public void RegisterScriptLibrary(string libraryKey, string releaseSource, string debugSource = "", int order = 20, ClientLibrary.LocationEnum location = ClientLibrary.LocationEnum.Head)
+        {
+            RegisterClientLibrary(libraryKey, ClientLibrary.LibraryTypeEnum.Javascript, releaseSource, debugSource, order, location);
+        }
+
+        /// <summary>
+        /// Registers a new CSS library to be rendered. If the client library has been registered before then it is udpated with the new values
+        /// otherwise it is added
+        /// </summary>
+        /// <param name="libraryKey">This uniquely identifies the library. Two libraries with the same key are considered the same</param>
+        /// <param name="releaseSource">The source to use when rendering in release mode</param>
+        /// <param name="debugSource">The source to use when rendering in debug mode</param>
+        /// <param name="order">The order in which to render. By default this happens in the order they were added</param>
+        /// <param name="location">Where to register the libary in the page head or at the bottom</param>
+        public void RegisterCssLibrary(string libraryKey, string releaseSource, string debugSource = "", int order = 20, ClientLibrary.LocationEnum location = ClientLibrary.LocationEnum.Head)
+        {
+            RegisterClientLibrary(libraryKey, ClientLibrary.LibraryTypeEnum.CSS, releaseSource, debugSource, order, location);
+        }
+
+        /// <summary>
+        /// Registers a new client library to be rendered. If the client library has been registered before then it is udpated with the new values
+        /// otherwise it is added
+        /// </summary>
+        /// <param name="libraryKey">This uniquely identifies the library. Two libraries with the same key are considered the same</param>
+        /// <param name="libraryType">The type of library: JS or CSS</param>
+        /// <param name="releaseSource">The source to use when rendering in release mode</param>
+        /// <param name="debugSource">The source to use when rendering in debug mode</param>
+        /// <param name="order">The order in which to render. By default this happens in the order they were added</param>
+        /// <param name="location">Where to register the libary in the page head or at the bottom</param>
+        public void RegisterClientLibrary(string libraryKey, ClientLibrary.LibraryTypeEnum libraryType, string releaseSource, string debugSource = "", int order = 10, ClientLibrary.LocationEnum location = ClientLibrary.LocationEnum.Head)
+        {
+            var libKey = libraryKey.ToLowerInvariant();
+            var libs = GetClientLibaryRegistry();
+            var library = libs.Where(l => l.Key == libKey).FirstOrDefault();
+            if (library == null)
+            {
+                library = new ClientLibrary(libKey, libraryType, releaseSource, debugSource, order, location);
+                libs.Add(library);
+            }
+            else
+            {
+                library.Key = libKey;
+                library.LibraryType = libraryType;
+                library.Order = order;
+                library.Location = location;
+                library.ReleaseSource = releaseSource;
+                library.DebugSource = string.IsNullOrEmpty(debugSource) ? releaseSource : debugSource;                
+            }
+        }
+
+        /// <summary>
+        /// Retreives the html to render which registers the client libraries for a particular location (Head or Footer)
+        /// </summary>
+        /// <param name="location">The location to render (Head or Footer)</param>
+        /// <param name="debug">Whether to register the debug source or the release source version of the library</param>
+        /// <returns>The HTML that will be outputted to the page</returns>
+        public string GetClientLibrariesHtml(ClientLibrary.LocationEnum location, bool debug = false)
+        {
+            var libs = GetClientLibaryRegistry().Where(l => l.Location == location)
+                                                .OrderBy(l => l.LibraryType)
+                                                .ThenBy(l => l.Order)
+                                                .ToList();
+
+            var sb = new StringBuilder();
+            foreach (var lib in libs)
+            {
+                if (lib.LibraryType == ClientLibrary.LibraryTypeEnum.CSS)
+                {
+                    sb.AppendLine(Html.CSSReference(lib.GetSource(debug)));
+                }
+                else if (lib.LibraryType == ClientLibrary.LibraryTypeEnum.Javascript)
+                {
+                    sb.AppendLine(Html.JSReference(lib.GetSource(debug)));
+                }                
+            }
+            return sb.ToString();
+        }
+
+
+        /// <summary>
+        /// Registers a handler to the Page.LoadComplete event (only once) that injects the javascript
+        /// </summary>
+        /// <param name="page">The page to inject the scripts into</param>
+        public void AddClientLibraryPageCompleteHandler(System.Web.UI.Page page)
+        {
+            // Only do it once by putting in the context
+            var key = "AddClientLibraryPageCompleteHandlerAdded";
+            if (!ContextHelper.HasData(key)){
+                page.LoadComplete += new EventHandler(InjectClientLibraries);
+                ContextHelper.SetData(key, true);
+            }            
+        }
+
+        /// <summary>
+        /// Injects the scripts into the page and is called in response to the Page.LoadComplete event
+        /// </summary>
+        /// <param name="sender">The page who's load complete we are rendering</param>
+        private void InjectClientLibraries(object sender, EventArgs e)
+        {
+            var page = (System.Web.UI.Page)sender;
+            page.Header.Controls.Add(new LiteralControl(GetClientLibrariesHtml(ClientLibrary.LocationEnum.Head, IsInDebugMode)));
+            page.Form.Controls.Add(new LiteralControl(GetClientLibrariesHtml(ClientLibrary.LocationEnum.Footer, IsInDebugMode)));
+        }
 
         #endregion
 

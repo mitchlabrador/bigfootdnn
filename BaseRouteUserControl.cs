@@ -20,6 +20,11 @@ namespace BigfootDNN
         public abstract void RouteCreated(RouteInfo Route);
 
         /// <summary>
+        /// Called after all rendering is complete
+        /// </summary>
+        public abstract void FinishedRendering();
+
+        /// <summary>
         /// Must be implemented in order to get the application info
         /// </summary>
         public abstract AppInfo GetAppInfo();
@@ -38,11 +43,13 @@ namespace BigfootDNN
             try
             {
                 // Create the route from the request
-                Route = RouteInfo.CreateFromRequest(GetAppInfo(), this);
-                
+                Route = RouteInfo.CreateFromRequest(GetAppInfo(), this);                
 
                 // Call the route created
                 RouteCreated(Route);
+
+                // Register the javascript and css libraries in the header
+                App.AddClientLibraryPageCompleteHandler(this.Page);
 
                 // Execute the action
                 var result = Route.ExecuteRoute();
@@ -50,6 +57,8 @@ namespace BigfootDNN
                 // Process the result
                 ProcessResult(result);
 
+                // Called the function to signify finished rendering
+                FinishedRendering();
             }
             catch (Exception ex)
             {
