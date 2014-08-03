@@ -1,12 +1,14 @@
 ﻿using System;
+using System.IO;
 using System.Security;
 using BigfootDNN.Helpers;
+
 using DotNetNuke.Entities.Modules;
 
 
 namespace BigfootDNN
 {
-    
+
     /// <summary>
     /// This is the base controller class from which all MVC controller must inherit
     /// </summary>
@@ -117,6 +119,7 @@ namespace BigfootDNN
             return new ActionResult(ActionResult.ActionTypeEnum.Json, Route, jsondata);
         }
 
+        
         /// <summary>
         /// Retursn a new ActionResult with a literal string to be returned to the client
         /// </summary>
@@ -146,6 +149,7 @@ namespace BigfootDNN
         {
             return new ActionResult(ActionResult.ActionTypeEnum.Literal, Route, data);
         }
+
 
         /// <summary>
         /// Writes a file to the response and ends the response
