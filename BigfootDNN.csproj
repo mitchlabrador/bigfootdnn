@@ -113,6 +113,7 @@
     <Compile Include="Validation\ValidatorResult.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\bigfoot-theme.css" />
     <Content Include="Content\css\bigfoot.all.css">
       <DependentUpon>bigfoot.all.css.bundle</DependentUpon>
     </Content>
@@ -122,9 +123,11 @@
     <Content Include="Content\css\bigfoot.css" />
     <Content Include="Content\css\pickadate.css" />
     <Content Include="Content\css\select2.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\images\alert_error.gif" />
     <Content Include="Content\images\alert_notice.gif" />
     <Content Include="Content\images\alert_progress.gif" />
+    <Content Include="Content\images\input-spinner.gif" />
     <Content Include="Content\images\loading-spinner-grey.gif" />
     <Content Include="Content\images\select2-spinner.gif" />
     <Content Include="Content\images\select2.png" />
@@ -203,6 +206,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\css\bigfoot.all.css.bundle" />
+    <None Include="Content\fonts\fontawesome-webfont.eot" />
+    <None Include="Content\fonts\fontawesome-webfont.ttf" />
+    <None Include="Content\fonts\fontawesome-webfont.woff" />
+    <None Include="Content\fonts\FontAwesome.otf" />
     <None Include="Content\js\bigfoot.all.js.bundle" />
     <None Include="Content\js\bigfoot.all.min.js.map">
       <DependentUpon>bigfoot.all.min.js</DependentUpon>

@@ -532,7 +532,8 @@ var bigfootMVC = {
             confirmMessage: "",
             successMessage: "",
             updatePanel: "",
-            removeElement: "",            
+            removeElement: "",
+            clearElement: "",
             callback: "",
             redirectToUrl: "",
             loadUrl: "",
@@ -592,6 +593,11 @@ var bigfootMVC = {
                 // Remove element
                 if (options.removeElement != "") {
                     bf.id(options.removeElement).remove();
+                }
+
+                // Clear element
+                if (options.clearElement != "") {
+                    bf.id(options.clearElement).val("");
                 }
 
                 // Hide element

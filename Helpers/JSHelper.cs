@@ -1435,6 +1435,7 @@ namespace BigfootDNN.Helpers
         private string _formName;
         private bool _isPartialForm;
         private string _successMessage;
+        private string _clearElement;
 
 
         /// <summary>
@@ -1465,6 +1466,16 @@ namespace BigfootDNN.Helpers
         public AjaxRequest RemoveElement(string name)
         {
             _removeElement = JQHelper.GetElementID(name);
+            return this;
+        }
+
+        /// <summary>
+        /// Clears the element specified
+        /// </summary>
+        /// <param name="name">Element id</param>
+        public AjaxRequest ClearElement(string name)
+        {
+            _clearElement = JQHelper.GetElementID(name);
             return this;
         }
 
@@ -1741,6 +1752,11 @@ namespace BigfootDNN.Helpers
             if (string.IsNullOrEmpty(_removeElement) == false)
             {
                 options.AddString("removeElement", _removeElement);
+            }
+            // Clear Element
+            if (string.IsNullOrEmpty(_clearElement) == false)
+            {
+                options.AddString("clearElement", _clearElement);
             }
             // Hide Element
             if (string.IsNullOrEmpty(_hideElement) == false)

@@ -395,6 +395,11 @@ namespace BigfootDNN.Helpers
         {
             return Add("SELECT COUNT(*) FROM").Add(Translate(tablename));
         }
+
+        public SqlHelper SELECT_COUNT_ALL_FROM(SqlHelper query, string alias)
+        {
+            return Add("SELECT COUNT(*) FROM (").Add(query).Add(")").Add(alias);
+        }
         
         public SqlHelper SELECT(params string[] columns)
         {
@@ -442,6 +447,28 @@ namespace BigfootDNN.Helpers
             return Add("LEFT JOIN (" + sql + ") " + alias);
         }
 
+        public SqlHelper OUTERJOIN(string sql)
+        {
+            return Add("FULL JOIN " + sql);
+        }
+
+        public SqlHelper UNIONALL(string sql)
+        {
+            return Add("UNION ALL " + sql);
+        }
+
+        public SqlHelper UNIONALL(SqlHelper sql)
+        {
+            Params.AddRange(sql.Params);
+            return Add("UNION ALL " + sql);
+        }
+
+        public SqlHelper OUTERJOIN(SqlHelper sql, string alias)
+        {
+            Params.AddRange(sql.Params);
+            return Add("FULL JOIN (" + sql + ") " + alias);
+        }
+
         public SqlHelper ON(string sql)
         {
             return Add("ON " + sql);
@@ -455,6 +482,12 @@ namespace BigfootDNN.Helpers
         public SqlHelper FROM(string sql)
         {
             return Add("FROM " + sql);
+        }
+
+        public SqlHelper FROM(SqlHelper sql, string alias)
+        {
+            Params.AddRange(sql.Params);
+            return Add("FROM (" + sql + ") " + alias);
         }
 
         public SqlHelper WHERE()
@@ -698,6 +731,11 @@ namespace BigfootDNN.Helpers
         public SqlHelper BETWEEN(string column, object startValue, object endValue)
         {
             return Add(column + " BETWEEN " + AddTempParam(startValue, column) + " AND " + AddTempParam(endValue, column));
+        }
+
+        public SqlHelper BETWEEN(string value, string startColumn, string endColumn)
+        {
+            return Add(value + " BETWEEN " + startColumn + " AND " + endColumn);
         }
         
         public SqlHelper OR() 
@@ -1723,7 +1761,7 @@ namespace BigfootDNN.Helpers
         #endregion
 
 
-        #region "Object Hydration"
+       #region "Object Hydration"
 
         #region "Cache"
 
@@ -1971,23 +2009,24 @@ namespace BigfootDNN.Helpers
         /// <returns>A hydrated object of type T</returns>
         private static T FillObject<T>(DbDataReader dr, bool manageDataReader)
         {
-            var objFillObject = default(T);
-            // Make sure the data reader has data
-            if (manageDataReader && dr.Read() == false) return objFillObject;
-
             try
             {
+                var objFillObject = default(T);
+                // Make sure the data reader has data
+                if (manageDataReader && dr.Read() == false) return objFillObject;
+
                 // Fill the object            
                 objFillObject = CreateObject<T>(dr);
+
+                // Return the filled object
+                return objFillObject;
             }
+            // Close the reader when in charge
             finally
             {
                 // Make sure to dispose the data reader                
                 if (manageDataReader) DisposeReader(dr);
-            }
-            
-            // Return the filled object
-            return objFillObject;
+            }            
         }
 
         private static T CreateObject<T>(DbDataReader dr)
@@ -2054,7 +2093,7 @@ namespace BigfootDNN.Helpers
         }
 
         /// <summary>
-        /// Match the bject fields against the ordinal of the DataReader. The ordinal of the DataReader is used 
+        /// Match the object fields against the ordinal of the DataReader. The ordinal of the DataReader is used 
         /// Rather than the string indexer to maximize performance
         /// </summary>
         /// <param name="fields">The list of members to hydrate for the object</param>
@@ -2121,7 +2160,7 @@ namespace BigfootDNN.Helpers
             }
             return fields;
         }
-        #endregion
+        #endregion 
 
 
         #region ValuesCollection
